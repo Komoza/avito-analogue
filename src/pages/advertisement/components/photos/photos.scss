@@ -1,0 +1,24 @@
+.photos {
+    display: grid;
+    gap: 30px 10px;
+
+    grid-template-columns: repeat(5, 88px);
+    grid-template-rows: 480px 88px;
+
+    &__main {
+        grid-area: 1 / 1 / 2 / 6;
+        width: 480px;
+        height: 480px;
+        object-fit: contain;
+    }
+    &__little {
+        width: 88px;
+        height: 88px;
+        object-fit: cover;
+        cursor: pointer;
+
+        &--active {
+            border: 2px solid #009EE4;
+        }
+    }
+}

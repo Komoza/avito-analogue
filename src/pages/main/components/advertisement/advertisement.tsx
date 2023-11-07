@@ -2,14 +2,14 @@ import './advertisement.scss';
 
 export const Advertisement = () => {
     return (
-        <div className="advertisement">
+        <div className="advertisement-wrap">
             <img
                 src="./public/image/photo-test.jpeg"
                 alt="фото объявления"
-                className="advertisement__image"
+                className="advertisement-wrap__image"
             />
 
-            <div className="advertisement__details details">
+            <div className="advertisement-wrap__details details">
                 <p className="details__name">
                     Ракетка для большого тенниса Triumph Pro ST...
                 </p>
