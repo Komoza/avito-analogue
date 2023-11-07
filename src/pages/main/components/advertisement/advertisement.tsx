@@ -1,12 +1,16 @@
-import './announcement.scss';
+import './advertisement.scss';
 
-export const Announcement = () => {
+export const Advertisement = () => {
     return (
-        <div className="announcement">
-            <img src="/" alt="картинка" className="announcement__image" />
+        <div className="advertisement">
+            <img
+                src="./public/image/photo-test.jpeg"
+                alt="фото объявления"
+                className="advertisement__image"
+            />
 
-            <div className="announcement__details details">
-                <p className="details__description">
+            <div className="advertisement__details details">
+                <p className="details__name">
                     Ракетка для большого тенниса Triumph Pro ST...
                 </p>
                 <p className="details__price">2 200 ₽</p>

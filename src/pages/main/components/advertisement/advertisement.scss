@@ -1,4 +1,4 @@
-.announcement {
+.advertisement {
     width: 270px;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
 }
 
 .details {
-    &__description {
+    &__name {
         color: #009ee4;
         font-size: 22px;
         font-weight: 500;
