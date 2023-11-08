@@ -1,10 +1,10 @@
 import { Advertisement } from '../../../../components/advertisement/advertisement';
-import './my-product.scss';
+import './seller-products.scss';
 
-export const MyProduct = () => {
+export const SellerProducts = () => {
     return (
-        <div className="my-product">
-            <h2 className="my-product__title">Мои товары</h2>
+        <div className="seller-products">
+            <h2 className="seller-products__title">Товары продавца</h2>
             <div className="advertisements">
                 <Advertisement />
                 <Advertisement />
