@@ -1,24 +1,27 @@
 .photos {
-    display: grid;
-    gap: 30px 10px;
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 
-    grid-template-columns: repeat(5, 88px);
-    grid-template-rows: 480px 88px;
+    &__main-slide {
+        width: 480px;
+        height: 480px;
+    }
 
-    &__main {
-        grid-area: 1 / 1 / 2 / 6;
+    &__main-slide-img {
         width: 480px;
         height: 480px;
         object-fit: contain;
     }
-    &__little {
+
+    &__swipe-slide-img {
         width: 88px;
         height: 88px;
         object-fit: cover;
-        cursor: pointer;
+    }
 
-        &--active {
-            border: 2px solid #009EE4;
-        }
+    &__thumbs-wrapper {
+        width: 480px;
     }
 }

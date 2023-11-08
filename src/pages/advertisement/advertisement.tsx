@@ -1,6 +1,6 @@
 import { BackToMain } from '../../components/back-to-main/back-to-main';
-import { Photos } from './components/photos/photos';
 import './advertisement.scss';
+import { Photos } from './components/photos/photos';
 import { Info } from './components/info/info';
 import { Description } from './components/description/dexcription';
 

@@ -1,8 +1,8 @@
 import { Header } from './components/header/header';
-// import { SellerProfile } from './pages/seller-profile/seller-profile';
-import { Profile } from './pages/profile/profile';
-// import { Advertisement } from './pages/advertisement/advertisement';
 // import { Main } from './pages/main/main';
+import { Advertisement } from './pages/advertisement/advertisement';
+// import { Profile } from './pages/profile/profile';
+// import { SellerProfile } from './pages/seller-profile/seller-profile';
 
 function App() {
     return (
@@ -10,9 +10,9 @@ function App() {
             <Header />
             <div className="wrapper">
                 {/* <Main /> */}
-                {/* <Advertisement/> */}
-                <Profile />
-                {/* <SellerProfile /> */}
+                <Advertisement />
+                {/* <Profile />
+                <SellerProfile /> */}
             </div>
         </div>
     );
