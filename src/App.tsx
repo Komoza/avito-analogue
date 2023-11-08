@@ -1,12 +1,16 @@
 import { Header } from './components/header/header';
-import { Main } from './pages/main/main';
+import { Profile } from './pages/profile/profile';
+// import { Advertisement } from './pages/advertisement/advertisement';
+// import { Main } from './pages/main/main';
 
 function App() {
     return (
         <div className="container">
             <Header />
             <div className="wrapper">
-                <Main />
+                {/* <Main /> */}
+                {/* <Advertisement/> */}
+                <Profile />
             </div>
         </div>
     );

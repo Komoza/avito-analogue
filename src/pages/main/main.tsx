@@ -1,4 +1,4 @@
-import { Advertisement } from './components/advertisement/advertisement';
+import { Advertisement } from '../../components/advertisement/advertisement';
 import { SearchBar } from './components/search-bar/search-bar';
 import { Title } from './components/title/titile';
 import './main.scss';

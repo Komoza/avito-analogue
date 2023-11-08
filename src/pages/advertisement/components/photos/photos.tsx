@@ -4,7 +4,7 @@ export const Photos = () => {
     return (
         <div className="photos">
             <img
-                src="./public/image/photo-test.jpeg"
+                src="./public/image/photo-test-5.jpeg"
                 alt=""
                 className="photos__main"
             />
