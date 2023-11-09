@@ -17,12 +17,14 @@ export const Login: React.FC<LoginProps> = ({ setModalMode }) => {
             />
             <div className="login__inputs">
                 <input
+                    name="mail"
                     type="email"
                     className="login__email login__input"
                     placeholder="email"
                 />
                 <input
-                    type="pass"
+                    name="password"
+                    type="password"
                     className="login__password login__input"
                     placeholder="Пароль"
                 />
