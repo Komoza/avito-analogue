@@ -29,6 +29,7 @@ const images = [
 
 export const Photos = () => {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
+    const [indexActiveThums, setIndexActiveThumbs] = useState<number>(0);
 
     const handleClickSlide = (index: number) => {
         if (thumbsSwiper) {
@@ -37,6 +38,7 @@ export const Photos = () => {
             if (typeof slidesPerView === 'number' && !isNaN(slidesPerView)) {
                 const targetIndex = index - Math.floor(slidesPerView / 2);
                 thumbsSwiper.slideTo(targetIndex, 300);
+                setIndexActiveThumbs(index);
             }
         }
     };
@@ -85,7 +87,10 @@ export const Photos = () => {
                             <SwiperSlide key={index}>
                                 <img
                                     src={image}
-                                    className="photos__swipe-slide-img"
+                                    className={`photos__swipe-slide-img ${
+                                        index === indexActiveThums &&
+                                        'photos__swipe-slide-img--active'
+                                    }`}
                                     onClick={() => handleClickSlide(index)}
                                 />
                             </SwiperSlide>
