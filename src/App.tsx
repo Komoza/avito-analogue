@@ -1,18 +1,12 @@
 import { Header } from './components/header/header';
-// import { Main } from './pages/main/main';
-import { Advertisement } from './pages/advertisement/advertisement';
-// import { Profile } from './pages/profile/profile';
-// import { SellerProfile } from './pages/seller-profile/seller-profile';
+import { AppRoutes } from './routes';
 
 function App() {
     return (
         <div className="container">
             <Header />
             <div className="wrapper">
-                {/* <Main /> */}
-                <Advertisement />
-                {/* <Profile />
-                <SellerProfile /> */}
+                <AppRoutes />
             </div>
         </div>
     );

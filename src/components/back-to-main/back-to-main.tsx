@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './back-to-main.scss';
 
 export const BackToMain = () => {
@@ -8,9 +9,11 @@ export const BackToMain = () => {
                 alt="logo"
                 className="back-to-main__logo"
             />
-            <button className="back-to-main__button blue-button">
-                Вернуться на главную
-            </button>
+            <Link to={'/'}>
+                <button className="back-to-main__button blue-button">
+                    Вернуться на главную
+                </button>
+            </Link>
         </div>
     );
 };

@@ -15,10 +15,32 @@ const images = [
     './public/image/photo-test-3.jpg',
     './public/image/photo-test-4.jpeg',
     './public/image/photo-test-5.jpeg',
+    './public/image/photo-test.jpeg',
+    './public/image/photo-test-2.jpg',
+    './public/image/photo-test-3.jpg',
+    './public/image/photo-test-4.jpeg',
+    './public/image/photo-test-5.jpeg',
+    './public/image/photo-test.jpeg',
+    './public/image/photo-test-2.jpg',
+    './public/image/photo-test-3.jpg',
+    './public/image/photo-test-4.jpeg',
+    './public/image/photo-test-5.jpeg',
 ];
 
 export const Photos = () => {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
+
+    const handleClickSlide = (index: number) => {
+        if (thumbsSwiper) {
+            const slidesPerView = thumbsSwiper.params.slidesPerView;
+
+            if (typeof slidesPerView === 'number' && !isNaN(slidesPerView)) {
+                const targetIndex = index - Math.floor(slidesPerView / 2);
+                thumbsSwiper.slideTo(targetIndex, 300);
+            }
+        }
+    };
+
     return (
         <div className="photos">
             <Swiper
@@ -52,7 +74,6 @@ export const Photos = () => {
                             setThumbsSwiper(e);
                         }
                     }}
-                    loop={true}
                     spaceBetween={10}
                     slidesPerView={5}
                     freeMode={true}
@@ -65,6 +86,7 @@ export const Photos = () => {
                                 <img
                                     src={image}
                                     className="photos__swipe-slide-img"
+                                    onClick={() => handleClickSlide(index)}
                                 />
                             </SwiperSlide>
                         );

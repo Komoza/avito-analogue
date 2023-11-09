@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './info.scss';
 
 export const Info = () => {
@@ -23,11 +24,16 @@ export const Info = () => {
             </button>
 
             <div className="info__seller seller">
-                <img src="./public/image/avatar-test.png" alt="photo" className="seller__avatar" />
+                <img
+                    src="./public/image/avatar-test.png"
+                    alt="photo"
+                    className="seller__avatar"
+                />
                 <div className="seller__info">
-                    <p className="seller__name">
-                        <a>Кирилл</a>
-                    </p>
+                    <Link to={'/seller-profile'}>
+                        <p className="seller__name">Кирилл</p>
+                    </Link>
+
                     <p className="seller__start">
                         Продает товары с августа 2021
                     </p>

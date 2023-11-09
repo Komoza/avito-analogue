@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Advertisement } from '../../components/advertisement/advertisement';
 import { SearchBar } from './components/search-bar/search-bar';
 import { Title } from './components/title/titile';
@@ -9,14 +10,30 @@ export const Main = () => {
             <SearchBar />
             <Title />
             <div className="advertisements">
-                <Advertisement />
-                <Advertisement />
-                <Advertisement />
-                <Advertisement />
-                <Advertisement />
-                <Advertisement />
-                <Advertisement />
-                <Advertisement />
+                <Link to={'/advertisement'}>
+                    <Advertisement />
+                </Link>
+                <Link to={'/advertisement'}>
+                    <Advertisement />
+                </Link>
+                <Link to={'/advertisement'}>
+                    <Advertisement />
+                </Link>
+                <Link to={'/advertisement'}>
+                    <Advertisement />
+                </Link>
+                <Link to={'/advertisement'}>
+                    <Advertisement />
+                </Link>
+                <Link to={'/advertisement'}>
+                    <Advertisement />
+                </Link>
+                <Link to={'/advertisement'}>
+                    <Advertisement />
+                </Link>
+                <Link to={'/advertisement'}>
+                    <Advertisement />
+                </Link>
             </div>
         </div>
     );

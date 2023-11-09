@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './header.scss';
 
 const isLogin: boolean = true;
@@ -10,9 +11,11 @@ export const Header = () => {
                     <button className="user-actions__place-an-ad header__button">
                         Разместить объявление
                     </button>
-                    <button className="user-actions__profile header__button">
-                        Личный кабинет
-                    </button>
+                    <Link to={'/profile'}>
+                        <button className="user-actions__profile header__button">
+                            Личный кабинет
+                        </button>
+                    </Link>
                 </div>
             ) : (
                 <div className="header__login login">
