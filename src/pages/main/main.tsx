@@ -12,7 +12,7 @@ export const Main = () => {
 
     useEffect(() => {
         const fetchData = () => {
-            getAllAds()
+            getAllAds(null)
                 .then((data) => {
                     setArrAds(data);
                 })

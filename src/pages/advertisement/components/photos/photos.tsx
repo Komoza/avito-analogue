@@ -31,6 +31,14 @@ export const Photos: React.FC<PhotosProps> = ({ images }) => {
         }
     };
 
+    if (!images.length) {
+        images.push({
+            id: NaN,
+            url: '/image/no-image.png',
+            ad_id: NaN,
+        });
+    }
+
     return (
         <div className="photos">
             <Swiper
@@ -48,7 +56,11 @@ export const Photos: React.FC<PhotosProps> = ({ images }) => {
                     return (
                         <SwiperSlide key={index}>
                             <img
-                                src={`${host}/${image.url}`}
+                                src={
+                                    isNaN(image.id)
+                                        ? image.url
+                                        : `${host}/${image.url}`
+                                }
                                 className="photos__main-slide-img"
                             />
                         </SwiperSlide>
@@ -73,7 +85,11 @@ export const Photos: React.FC<PhotosProps> = ({ images }) => {
                         return (
                             <SwiperSlide key={index}>
                                 <img
-                                    src={`${host}/${image.url}`}
+                                    src={
+                                        isNaN(image.id)
+                                            ? image.url
+                                            : `${host}/${image.url}`
+                                    }
                                     className={`photos__swipe-slide-img ${
                                         index === indexActiveThums &&
                                         'photos__swipe-slide-img--active'

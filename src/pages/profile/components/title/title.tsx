@@ -1,5 +1,9 @@
 import './title.scss';
 
-export const Title = () => {
-    return <p className="profile__title">Здравствуйте, Антон!</p>;
+interface TitleProps {
+    titleText: string;
+}
+
+export const Title: React.FC<TitleProps> = ({ titleText }) => {
+    return <p className="profile__title">{titleText}</p>;
 };

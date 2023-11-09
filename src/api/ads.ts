@@ -2,8 +2,9 @@ import { host } from '../constant';
 
 let url = '';
 
-export const getAllAds = async () => {
-    url = `/ads?sorting=new`;
+export const getAllAds = async (userId: number | null) => {
+    const userParam = userId ? `user_id=${userId}&` : '';
+    url = `/ads?${userParam}sorting=new`;
 
     return fetch(host + url, {
         method: 'GET',

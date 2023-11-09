@@ -1,6 +1,6 @@
-import './info.scss';
+import './user-info.scss';
 
-export const Info = () => {
+export const UserInfo = () => {
     const handleFocusInput = (event: React.FocusEvent) => {
         event.target.previousElementSibling?.classList.add(
             'user__input-text--active'
@@ -19,11 +19,7 @@ export const Info = () => {
 
             <div className="profile-info__user user">
                 <div className="user__image-wrapper">
-                    <img
-                        src="/image/avatar-test.png"
-                        alt="avatar"
-                        className="user__image"
-                    />
+                    <img src="/image/no-avatar.png" alt="avatar" className="user__image" />
                     <button className="user__change-avatar">Заменить</button>
                 </div>
 

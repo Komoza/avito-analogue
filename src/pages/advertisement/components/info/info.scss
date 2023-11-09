@@ -51,13 +51,6 @@
         letter-spacing: 0em;
     }
 
-    &__show-phone,
-    &__call {
-        margin-top: 30px;
-        padding-left: 37px;
-        padding-right: 37px;
-    }
-
     &__seller {
         margin-top: 34px;
         display: flex;
@@ -89,6 +82,10 @@
         &:hover {
             text-decoration: underline;
         }
+    }
+
+    &__name-link {
+        width: fit-content;
     }
 
     &__start {
