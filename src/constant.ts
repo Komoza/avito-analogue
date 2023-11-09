@@ -1,27 +1,4 @@
-export const isLogin: boolean = true;
+const isLogin: boolean = false;
+const host = 'http://127.0.0.1:8090';
 
-interface User {
-    city: string;
-}
-export interface Image {
-    url: string;
-}
-
-export interface Ads {
-    images: Image[];
-    title: string;
-    price: string;
-    created_on: string;
-    user: User;
-}
-
-export const checkTitleLength = (title: string) => {
-    let newTitle = '';
-
-    if (title.length > 35) {
-        newTitle = title.slice(0, 35) + '...';
-    } else {
-        newTitle = title;
-    }
-    return newTitle;
-};
+export { isLogin, host };

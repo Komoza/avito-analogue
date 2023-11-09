@@ -1,8 +1,9 @@
-export const host = 'http://127.0.0.1:8090';
+import { host } from '../constant';
+
 let url = '';
 
 export const getAllAds = async () => {
-    url = `/ads`;
+    url = `/ads?sorting=new`;
 
     return fetch(host + url, {
         method: 'GET',

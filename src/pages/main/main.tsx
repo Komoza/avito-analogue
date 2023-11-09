@@ -5,7 +5,7 @@ import { Title } from './components/title/titile';
 import './main.scss';
 import { getAllAds } from '../../api/ads';
 import { useEffect, useState } from 'react';
-import { Ads } from '../../constant';
+import { Ads } from '../../interface/global';
 
 export const Main = () => {
     const [arrAds, setArrAds] = useState<Ads[] | null>(null);

@@ -1,8 +1,9 @@
 import { formatDistanceToNow } from 'date-fns';
-import { host } from '../../api/ads';
-import { Ads, checkTitleLength } from '../../constant';
 import './advertisement.scss';
 import { ru } from 'date-fns/locale';
+import { Ads } from '../../interface/global';
+import { checkTitleLength } from '../../utils/advertisement';
+import { host } from '../../constant';
 
 interface AdvertisementProps {
     ads: Ads;
