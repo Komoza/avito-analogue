@@ -8,26 +8,14 @@ import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { Image } from '../../../../interface/global';
+import { host } from '../../../../constant';
 
-const images = [
-    '/image/photo-test.jpeg',
-    '/image/photo-test-2.jpg',
-    '/image/photo-test-3.jpg',
-    '/image/photo-test-4.jpeg',
-    '/image/photo-test-5.jpeg',
-    '/image/photo-test.jpeg',
-    '/image/photo-test-2.jpg',
-    '/image/photo-test-3.jpg',
-    '/image/photo-test-4.jpeg',
-    '/image/photo-test-5.jpeg',
-    '/image/photo-test.jpeg',
-    '/image/photo-test-2.jpg',
-    '/image/photo-test-3.jpg',
-    '/image/photo-test-4.jpeg',
-    '/image/photo-test-5.jpeg',
-];
+interface PhotosProps {
+    images: Image[];
+}
 
-export const Photos = () => {
+export const Photos: React.FC<PhotosProps> = ({ images }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
     const [indexActiveThums, setIndexActiveThumbs] = useState<number>(0);
 
@@ -46,7 +34,6 @@ export const Photos = () => {
     return (
         <div className="photos">
             <Swiper
-                loop={true}
                 spaceBetween={10}
                 thumbs={{
                     swiper:
@@ -61,7 +48,7 @@ export const Photos = () => {
                     return (
                         <SwiperSlide key={index}>
                             <img
-                                src={image}
+                                src={`${host}/${image.url}`}
                                 className="photos__main-slide-img"
                             />
                         </SwiperSlide>
@@ -86,7 +73,7 @@ export const Photos = () => {
                         return (
                             <SwiperSlide key={index}>
                                 <img
-                                    src={image}
+                                    src={`${host}/${image.url}`}
                                     className={`photos__swipe-slide-img ${
                                         index === indexActiveThums &&
                                         'photos__swipe-slide-img--active'

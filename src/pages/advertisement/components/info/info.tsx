@@ -1,42 +1,55 @@
 import { Link } from 'react-router-dom';
 import './info.scss';
+import { Ads } from '../../../../interface/global';
+import { formatDistanceToNow } from 'date-fns';
+import { ru } from 'date-fns/locale';
+import { formatDate, formateNumber } from '../../../../utils/advertisement';
+import { host } from '../../../../constant';
 
-export const Info = () => {
+interface AdsInfoProps {
+    currAds: Ads;
+}
+export const Info: React.FC<AdsInfoProps> = ({ currAds }) => {
     return (
         <div className="info">
-            <p className="info__name">
-                Ракетка для большого тенниса Triumph Pro STС Б/У
-            </p>
+            <p className="info__name">{currAds.title}</p>
 
             <div className="info__from">
-                <p className="info__date">Сегодня в 10:45</p>
-                <p className="info__location">Санкт-Петербург</p>
+                <p className="info__date">
+                    {formatDistanceToNow(new Date(currAds.created_on), {
+                        addSuffix: true,
+                        locale: ru,
+                    })}
+                </p>
+                <p className="info__location">{currAds.user.city}</p>
             </div>
 
             <p className="info__reviews">
-                <a>23 отзыва</a>
+                <a>??? отзыва</a>
             </p>
 
-            <div className="info__price">2 200 ₽</div>
+            <div className="info__price">{`${currAds.price}  ₽`}</div>
 
-            <button className="info__show-phone blue-button">
-                Показать телефон <br /> 8 905 ХХХ ХХ ХХ
-            </button>
+            {currAds.user.phone && (
+                <button className="info__show-phone blue-button">
+                    Показать телефон <br /> {formateNumber(currAds.user.phone)}
+                </button>
+            )}
 
             <div className="info__seller seller">
                 <img
-                    src="/image/avatar-test.png"
+                    src={`${host}/${currAds.user.avatar}`}
                     alt="photo"
                     className="seller__avatar"
                 />
                 <div className="seller__info">
                     <Link to={'/profile'}>
-                        <p className="seller__name">Кирилл</p>
+                        <p className="seller__name">{currAds.user.name}</p>
                     </Link>
 
-                    <p className="seller__start">
-                        Продает товары с августа 2021
-                    </p>
+                    <p className="seller__start">{`Продает товары с ${formatDate(
+                        currAds.user.sells_from
+                    )}`}</p>
                 </div>
             </div>
         </div>

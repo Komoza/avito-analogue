@@ -26,7 +26,7 @@ export const Advertisement: React.FC<AdvertisementProps> = ({ ads }) => {
                     <p className="details__name">
                         {checkTitleLength(ads.title)}
                     </p>
-                    <p className="details__price">{ads.price} ₽</p>
+                    <p className="details__price">{`${ads.price}  ₽`}</p>
                     <div className="details__from from">
                         <p className="from__location">{ads.user.city}</p>
                         <p className="from__date">

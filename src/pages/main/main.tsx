@@ -31,7 +31,7 @@ export const Main = () => {
                 <div className="advertisements">
                     {arrAds.map((ads, index) => {
                         return (
-                            <Link key={index} to={'/advertisement'}>
+                            <Link key={index} to={`/ads/${ads.id}`}>
                                 <Advertisement ads={ads} />
                             </Link>
                         );
