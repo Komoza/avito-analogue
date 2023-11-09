@@ -1,0 +1,68 @@
+.login {
+    width: 366px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 42px;
+    z-index: 20;
+    background-color: #fff;
+    padding: 43px 45px;
+    border-radius: 12px;
+
+    &__logo {
+        width: 140px;
+    }
+
+    &__inputs {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 38px;
+    }
+
+    &__input {
+        padding-bottom: 8px;
+        outline: none;
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid #d9d9d9;
+
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+
+        &::placeholder {
+            color: #d9d9d9;
+        }
+    }
+
+    &__buttons {
+        width: 100%;
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    &__login {
+        width: 100%;
+    }
+    &__signup {
+        width: 100%;
+        padding-top: 13px;
+        padding-bottom: 13px;
+        background: none;
+        border: 1px solid #d9d9d9;
+        border-radius: 6px;
+
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24px;
+
+        &:hover {
+            border: 1px solid #0080c1;
+            color: #fff;
+            background-color: #0080c1;
+        }
+    }
+}

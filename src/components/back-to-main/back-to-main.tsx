@@ -5,7 +5,7 @@ export const BackToMain = () => {
     return (
         <div className="back-to-main">
             <img
-                src="./public/image/logo.svg"
+                src="/image/logo.svg"
                 alt="logo"
                 className="back-to-main__logo"
             />

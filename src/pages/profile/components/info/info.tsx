@@ -20,7 +20,7 @@ export const Info = () => {
             <div className="profile-info__user user">
                 <div className="user__image-wrapper">
                     <img
-                        src="./public/image/avatar-test.png"
+                        src="/image/avatar-test.png"
                         alt="avatar"
                         className="user__image"
                     />

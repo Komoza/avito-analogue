@@ -10,21 +10,21 @@ import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 const images = [
-    './public/image/photo-test.jpeg',
-    './public/image/photo-test-2.jpg',
-    './public/image/photo-test-3.jpg',
-    './public/image/photo-test-4.jpeg',
-    './public/image/photo-test-5.jpeg',
-    './public/image/photo-test.jpeg',
-    './public/image/photo-test-2.jpg',
-    './public/image/photo-test-3.jpg',
-    './public/image/photo-test-4.jpeg',
-    './public/image/photo-test-5.jpeg',
-    './public/image/photo-test.jpeg',
-    './public/image/photo-test-2.jpg',
-    './public/image/photo-test-3.jpg',
-    './public/image/photo-test-4.jpeg',
-    './public/image/photo-test-5.jpeg',
+    '/image/photo-test.jpeg',
+    '/image/photo-test-2.jpg',
+    '/image/photo-test-3.jpg',
+    '/image/photo-test-4.jpeg',
+    '/image/photo-test-5.jpeg',
+    '/image/photo-test.jpeg',
+    '/image/photo-test-2.jpg',
+    '/image/photo-test-3.jpg',
+    '/image/photo-test-4.jpeg',
+    '/image/photo-test-5.jpeg',
+    '/image/photo-test.jpeg',
+    '/image/photo-test-2.jpg',
+    '/image/photo-test-3.jpg',
+    '/image/photo-test-4.jpeg',
+    '/image/photo-test-5.jpeg',
 ];
 
 export const Photos = () => {

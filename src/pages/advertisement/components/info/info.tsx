@@ -25,12 +25,12 @@ export const Info = () => {
 
             <div className="info__seller seller">
                 <img
-                    src="./public/image/avatar-test.png"
+                    src="/image/avatar-test.png"
                     alt="photo"
                     className="seller__avatar"
                 />
                 <div className="seller__info">
-                    <Link to={'/seller-profile'}>
+                    <Link to={'/profile'}>
                         <p className="seller__name">Кирилл</p>
                     </Link>
 

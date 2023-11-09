@@ -4,7 +4,7 @@ export const SellerProfileInfo = () => {
     return (
         <div className="seller-profile-info">
             <img
-                src="./public/image/avatar-test.png"
+                src="/image/avatar-test.png"
                 alt="avatar"
                 className="seller-profile-info__avatar"
             />
@@ -15,7 +15,7 @@ export const SellerProfileInfo = () => {
                     Продает товары с августа 2021
                 </p>
                 <button className="seller-profile-info__show-tel blue-button">
-                    Показать телефон <br /> 8 905 ХХХ ХХ ХХ
+                    Показать телефон <br /> 8 905 ХХХ ХХ ХX
                 </button>
             </div>
         </div>

@@ -4,7 +4,7 @@ export const SearchBar = () => {
     return (
         <div className="search">
             <img
-                src="./public/image/logo.svg"
+                src="/image/logo.svg"
                 alt="логотип"
                 className="search__logo"
             />

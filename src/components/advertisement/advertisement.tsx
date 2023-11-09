@@ -4,7 +4,7 @@ export const Advertisement = () => {
     return (
         <div className="advertisement-wrap">
             <img
-                src="./public/image/photo-test.jpeg"
+                src="/image/photo-test.jpeg"
                 alt="фото объявления"
                 className="advertisement-wrap__image"
             />
