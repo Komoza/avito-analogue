@@ -7,14 +7,21 @@ import { Products } from './components/products/products';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAdsById } from '../../api/ads';
-import { User } from '../../interface/global';
-import { isLogin } from '../../constant';
-
-const guestMode = !isLogin;
+import { User, userBack } from '../../interface/global';
+import { getUserFromLocalStorage } from '../../utils/user';
 
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
+    const [guestMode, setGuestMode] = useState<boolean>(true);
     const adsId = useParams().id;
+
+    const checkGuestMode = (user: userBack | null) => {
+        if (user && user.id === userProfile?.id) {
+            return false;
+        }
+
+        return true;
+    };
 
     useEffect(() => {
         const fetchData = () => {
@@ -31,6 +38,12 @@ export const Profile = () => {
 
         fetchData();
     }, [adsId]);
+
+    useEffect(() => {
+        const newGuestMode = checkGuestMode(getUserFromLocalStorage());
+        setGuestMode(newGuestMode);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userProfile]);
 
     return (
         <div className="profile__wrapper">

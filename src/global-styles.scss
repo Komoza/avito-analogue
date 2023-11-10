@@ -49,3 +49,18 @@ a {
         background-color: #0080c1;
     }
 }
+
+.error-message {
+    width: calc(100% - 90px);
+    height: 42px;
+    position: absolute;
+    bottom: 147px;
+    left: 45px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    color: red;
+    font-weight: 500;
+    text-align: left;
+}

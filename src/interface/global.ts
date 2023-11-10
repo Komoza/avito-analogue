@@ -10,6 +10,17 @@ interface User {
     surname: string;
 }
 
+interface userBack {
+    id: number;
+    password: string;
+    role: string;
+    email: string;
+    name: string;
+    surname: string;
+    phone: string;
+    city: string;
+}
+
 interface Image {
     id: number;
     ad_id: number;
@@ -27,4 +38,4 @@ interface Ads {
     user: User;
 }
 
-export type { Ads, Image, User };
+export type { Ads, Image, User, userBack };
