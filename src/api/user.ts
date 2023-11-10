@@ -34,3 +34,26 @@ export const registerUser = async (user: userBack) => {
         throw new Error('Неизвестная ошибка, попробуйте позже');
     });
 };
+
+export const loginUser = async (email: string, password: string) => {
+    url = '/auth/login';
+
+    return fetch(host + url, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password,
+        }),
+    }).then((response) => {
+        if (response.status === 201) {
+            return response.json();
+        }
+        if (response.status === 401) {
+            throw new Error('Проверьте логин или пароль');
+        }
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};

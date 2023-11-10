@@ -55,8 +55,6 @@ export const Signup: React.FC<SignupProps> = ({
                         showError(error.message);
                     });
             }
-        } else {
-            console.log('не регистрировать');
         }
     };
 
@@ -141,7 +139,10 @@ export const Signup: React.FC<SignupProps> = ({
                 />
             </div>
 
-            <p ref={errorMessage} className="error-message"></p>
+            <p
+                ref={errorMessage}
+                className="error-message error-message--register"
+            ></p>
 
             <div className="signup__buttons">
                 <button

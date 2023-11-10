@@ -54,7 +54,6 @@ a {
     width: calc(100% - 90px);
     height: 42px;
     position: absolute;
-    bottom: 147px;
     left: 45px;
     display: flex;
     justify-content: start;
@@ -63,4 +62,11 @@ a {
     color: red;
     font-weight: 500;
     text-align: left;
+
+    &--register {
+        bottom: 147px;
+    }
+    &--login {
+        bottom: 172px;
+    }
 }

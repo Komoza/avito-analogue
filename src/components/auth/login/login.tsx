@@ -1,11 +1,45 @@
+import { useRef } from 'react';
+import { loginUser } from '../../../api/user';
 import './login.scss';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
     setModalMode: (value: string) => void;
+    setIsAuthModal: (value: boolean) => void;
 }
-export const Login: React.FC<LoginProps> = ({ setModalMode }) => {
+export const Login: React.FC<LoginProps> = ({
+    setModalMode,
+    setIsAuthModal,
+}) => {
+    const errorMessage = useRef<HTMLParagraphElement | null>(null);
+    const inputEmail = useRef<HTMLInputElement | null>(null);
+    const inputPassword = useRef<HTMLInputElement | null>(null);
+
+    const navigate = useNavigate();
+
     const handleClickSignup = () => {
         setModalMode('signup');
+    };
+
+    const handleClickLogin = () => {
+        if (inputEmail.current && inputPassword.current) {
+            loginUser(inputEmail.current.value, inputPassword.current.value)
+                .then((data) => {
+                    showError('');
+                    console.log(data);
+                    navigate('/profile/12');
+                    setIsAuthModal(false);
+                })
+                .catch((error) => {
+                    showError(error.message);
+                });
+        }
+    };
+
+    const showError = (textError: string) => {
+        if (errorMessage.current) {
+            errorMessage.current.innerText = textError;
+        }
     };
 
     return (
@@ -17,21 +51,32 @@ export const Login: React.FC<LoginProps> = ({ setModalMode }) => {
             />
             <div className="login__inputs">
                 <input
+                    ref={inputEmail}
                     name="mail"
                     type="email"
                     className="login__email login__input"
                     placeholder="email"
                 />
                 <input
+                    ref={inputPassword}
                     name="password"
                     type="password"
                     className="login__password login__input"
                     placeholder="Пароль"
                 />
             </div>
+            <p
+                ref={errorMessage}
+                className="error-message error-message--login"
+            ></p>
 
             <div className="login__buttons">
-                <button className="login__login blue-button">Войти</button>
+                <button
+                    onClick={handleClickLogin}
+                    className="login__login blue-button"
+                >
+                    Войти
+                </button>
                 <button className="login__signup" onClick={handleClickSignup}>
                     Зарегистрироваться
                 </button>
