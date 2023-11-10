@@ -2,24 +2,21 @@ import { Link } from 'react-router-dom';
 import './header.scss';
 import { useState } from 'react';
 import { Auth } from '../auth/auth';
-import {
-    getUserFromLocalStorage,
-    removeUserFromLocalStorage,
-} from '../../utils/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGuestMode } from '../../store/actions/creators/creators';
+import { AppState } from '../../store/actions/types/types';
 
 export const Header = () => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
-    const [isLogin, setIsLogin] = useState<boolean>(
-        getUserFromLocalStorage() ? true : false
-    );
+    const guestModeState = useSelector((state: AppState) => state.guestMode);
+    const dispatch = useDispatch();
 
     const handleClickLogin = () => {
         setIsAuthModal(true);
     };
 
     const handleClickLogout = () => {
-        setIsLogin(false);
-        removeUserFromLocalStorage();
+        dispatch(setGuestMode(true));
     };
 
     return (
@@ -27,7 +24,7 @@ export const Header = () => {
             {isAuthModal && (
                 <Auth setIsAuthModal={setIsAuthModal} modalModeName={'login'} />
             )}
-            {isLogin ? (
+            {!guestModeState ? (
                 <div className="header__user-actions user-actions">
                     <button className="user-actions__place-an-ad header__button">
                         Разместить объявление

@@ -7,21 +7,15 @@ import { Products } from './components/products/products';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAdsById } from '../../api/ads';
-import { User, userBack } from '../../interface/global';
-import { getUserFromLocalStorage } from '../../utils/user';
+import { User } from '../../interface/global';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store/actions/types/types';
 
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
-    const [guestMode, setGuestMode] = useState<boolean>(true);
     const adsId = useParams().id;
 
-    const checkGuestMode = (user: userBack | null) => {
-        if (user && user.id === userProfile?.id) {
-            return false;
-        }
-
-        return true;
-    };
+    const guestModeState = useSelector((state: AppState) => state.guestMode);
 
     useEffect(() => {
         const fetchData = () => {
@@ -39,22 +33,16 @@ export const Profile = () => {
         fetchData();
     }, [adsId]);
 
-    useEffect(() => {
-        const newGuestMode = checkGuestMode(getUserFromLocalStorage());
-        setGuestMode(newGuestMode);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userProfile]);
-
     return (
         <div className="profile__wrapper">
             <BackToMain />
             <Title
                 titleText={
-                    guestMode ? 'Профиль продавца' : 'Здравствуйте, Антон!'
+                    guestModeState ? 'Профиль продавца' : 'Здравствуйте, Антон!'
                 }
             />
 
-            {guestMode && userProfile ? (
+            {guestModeState && userProfile ? (
                 <SellerInfo userProfile={userProfile} />
             ) : (
                 <UserInfo />
@@ -62,7 +50,9 @@ export const Profile = () => {
             {userProfile?.id && (
                 <Products
                     userId={userProfile.id}
-                    titleText={guestMode ? 'Товары продавца' : 'Мои товары'}
+                    titleText={
+                        guestModeState ? 'Товары продавца' : 'Мои товары'
+                    }
                 />
             )}
         </div>

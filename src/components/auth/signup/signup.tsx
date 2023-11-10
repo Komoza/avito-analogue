@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import './signup.scss';
-import { registerUser } from '../../../api/user';
-import { saveUserToLocalStorage } from '../../../utils/user';
+import { loginUser, registerUser } from '../../../api/user';
+import { useDispatch } from 'react-redux';
+import { setGuestMode } from '../../../store/actions/creators/creators';
 import { useNavigate } from 'react-router-dom';
 
 interface SignupProps {
@@ -20,6 +21,7 @@ export const Signup: React.FC<SignupProps> = ({
     const inputCity = useRef<HTMLInputElement | null>(null);
     const errorMessage = useRef<HTMLParagraphElement | null>(null);
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleClickLogin = () => {
@@ -46,10 +48,23 @@ export const Signup: React.FC<SignupProps> = ({
                     phone: '',
                     city: inputCity.current.value,
                 })
-                    .then((data) => {
-                        saveUserToLocalStorage(data);
-                        navigate('/profile/12');
+                    .then(() => {
+                        dispatch(setGuestMode(false));
                         setIsAuthModal(false);
+                        if (inputPassword.current && inputEmail.current) {
+                            loginUser(
+                                inputEmail.current.value,
+                                inputPassword.current.value
+                            )
+                                .then((data) => {
+                                    // НЕ ЗАБЫТЬ ЗАСУНУТЬ ТОКЕН В LocaleStorage
+                                    console.log(data);
+                                    navigate('/profile/12');
+                                })
+                                .catch(() => {
+                                    setModalMode('login');
+                                });
+                        }
                     })
                     .catch((error) => {
                         showError(error.message);

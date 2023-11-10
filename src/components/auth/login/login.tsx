@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { loginUser } from '../../../api/user';
 import './login.scss';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setGuestMode } from '../../../store/actions/creators/creators';
 
 interface LoginProps {
     setModalMode: (value: string) => void;
@@ -15,7 +16,7 @@ export const Login: React.FC<LoginProps> = ({
     const inputEmail = useRef<HTMLInputElement | null>(null);
     const inputPassword = useRef<HTMLInputElement | null>(null);
 
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClickSignup = () => {
         setModalMode('signup');
@@ -26,9 +27,10 @@ export const Login: React.FC<LoginProps> = ({
             loginUser(inputEmail.current.value, inputPassword.current.value)
                 .then((data) => {
                     showError('');
+                    // НЕ ЗАБЫТЬ ЗАСУНУТЬ ТОКЕН В LocaleStorage
                     console.log(data);
-                    navigate('/profile/12');
                     setIsAuthModal(false);
+                    dispatch(setGuestMode(false));
                 })
                 .catch((error) => {
                     showError(error.message);

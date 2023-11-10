@@ -51,7 +51,7 @@ export const loginUser = async (email: string, password: string) => {
         if (response.status === 201) {
             return response.json();
         }
-        if (response.status === 401) {
+        if ((response.status === 401) || (response.status === 422)) {
             throw new Error('Проверьте логин или пароль');
         }
         throw new Error('Неизвестная ошибка, попробуйте позже');
