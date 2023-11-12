@@ -6,24 +6,23 @@ import { SellerInfo } from './components/seller-info/seller-info';
 import { Products } from './components/products/products';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getAdsById } from '../../api/ads';
 import { User } from '../../interface/global';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/actions/types/types';
-import { getUser } from '../../api/user';
+import { getAllUsers, getUser } from '../../api/user';
 import { getTokenFromLocalStorage } from '../../utils/token';
 
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
-    const [pageMode, setPageMode] = useState<string>('guest'); // guest, not-logged, my-profile, error
+    const [pageMode, setPageMode] = useState<string>('guest'); // guest, not-logged, my-profile, error, not-found-user
     const guestModeState = useSelector((state: AppState) => state.guestMode);
 
-    const adsId = useParams().id;
+    const userID = useParams().id;
 
     useEffect(() => {
         const fetchData = () => {
-            if (adsId) {
-                if (adsId === 'me') {
+            if (userID) {
+                if (userID === 'me') {
                     if (!guestModeState) {
                         getUser(getTokenFromLocalStorage())
                             .then((data) => {
@@ -41,10 +40,24 @@ export const Profile = () => {
                         setPageMode('not-logged');
                     }
                 } else {
-                    getAdsById(adsId)
+                    getAllUsers()
                         .then((data) => {
-                            setUserProfile(data.user);
-                            setPageMode('guest');
+                            if (data) {
+                                const findUser = (arrUsers: User[]) => {
+                                    for (let i = 0; i < arrUsers?.length; i++) {
+                                        if (
+                                            arrUsers[i].id === parseInt(userID)
+                                        ) {
+                                            setPageMode('guest');
+                                            return arrUsers[i];
+                                        }
+                                    }
+                                    setPageMode('not-found-user');
+                                    return null;
+                                };
+
+                                setUserProfile(findUser(data));
+                            }
                         })
                         .catch((error) => {
                             console.error(
@@ -58,17 +71,23 @@ export const Profile = () => {
         };
 
         fetchData();
-    }, [adsId, guestModeState]);
+    }, [userID, guestModeState]);
 
     return (
         <div className="profile__wrapper">
             <BackToMain />
 
             {pageMode === 'not-logged' && (
-                <div className="before-login">
-                    <p className="before-login__text">
+                <div className="message-page">
+                    <p className="message-page__text">
                         Сначала войдите в аккаунт
                     </p>
+                </div>
+            )}
+
+            {pageMode === 'not-found-user' && (
+                <div className="message-page">
+                    <p className="message-page__text">Пользовател не найден</p>
                 </div>
             )}
 

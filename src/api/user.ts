@@ -72,6 +72,27 @@ export const getUser = async (token: Token) => {
             return responce.json();
         }
 
+        if (responce.status === 401) {
+            throw new Error('Сгорел токен');
+        }
+
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};
+
+export const getAllUsers = async () => {
+    url = '/user/all';
+
+    return fetch(host + url, {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+        },
+    }).then((responce) => {
+        if (responce.status === 200) {
+            return responce.json();
+        }
+
         throw new Error('Неизвестная ошибка, попробуйте позже');
     });
 };

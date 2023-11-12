@@ -48,7 +48,7 @@ export const Info: React.FC<AdsInfoProps> = ({ currAds }) => {
                 <div className="seller__info">
                     <Link
                         className="seller__name-link"
-                        to={`/profile/${currAds.id}`}
+                        to={`/profile/${currAds.user_id}`}
                     >
                         <p className="seller__name">{currAds.user.name}</p>
                     </Link>
