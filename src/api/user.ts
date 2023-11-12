@@ -1,5 +1,6 @@
 import { host } from '../constant';
-import { Token, userBack } from '../interface/global';
+import { Token, User, userBack } from '../interface/global';
+import { getTokenFromLocalStorage, updateToken } from '../utils/token';
 
 let url = '';
 
@@ -58,7 +59,7 @@ export const loginUser = async (email: string, password: string) => {
     });
 };
 
-export const getUser = async (token: Token) => {
+export const getUser = async (token: Token): Promise<User> => {
     url = '/user';
 
     return fetch(host + url, {
@@ -73,7 +74,8 @@ export const getUser = async (token: Token) => {
         }
 
         if (responce.status === 401) {
-            throw new Error('Сгорел токен');
+            updateToken();
+            return getUser(getTokenFromLocalStorage());
         }
 
         throw new Error('Неизвестная ошибка, попробуйте позже');
@@ -91,6 +93,30 @@ export const getAllUsers = async () => {
     }).then((responce) => {
         if (responce.status === 200) {
             return responce.json();
+        }
+
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};
+
+export const getNewToken = async (token: Token) => {
+    url = '/auth/login';
+
+    return fetch(host + url, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            access_token: token.access_token,
+            refresh_token: token.refresh_token,
+        }),
+    }).then((response) => {
+        if (response.status === 201) {
+            return response.json();
+        }
+        if (response.status === 401) {
+            throw new Error('Токен устарел');
         }
 
         throw new Error('Неизвестная ошибка, попробуйте позже');
