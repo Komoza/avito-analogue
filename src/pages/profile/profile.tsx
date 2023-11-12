@@ -15,75 +15,82 @@ import { getTokenFromLocalStorage } from '../../utils/token';
 
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
-    const adsId = useParams().id;
-
+    const [pageMode, setPageMode] = useState<string>('guest'); // guest, not-logged, my-profile, error
     const guestModeState = useSelector((state: AppState) => state.guestMode);
+
+    const adsId = useParams().id;
 
     useEffect(() => {
         const fetchData = () => {
             if (adsId) {
-                if (adsId !== 'me') {
-                    getAdsById(adsId)
-                        .then((data) => {
-                            setUserProfile(data.user);
-                        })
-                        .catch((error) => {
-                            console.error(
-                                'Error fetching workout data:',
-                                error
-                            );
-                        });
-                } else {
-                    if (getTokenFromLocalStorage()) {
+                if (adsId === 'me') {
+                    if (!guestModeState) {
                         getUser(getTokenFromLocalStorage())
                             .then((data) => {
                                 setUserProfile(data);
+                                setPageMode('my-profile');
                             })
                             .catch((error) => {
                                 console.error(
                                     'Error fetching workout data:',
                                     error
                                 );
+                                setPageMode('error');
                             });
+                    } else {
+                        setPageMode('not-logged');
                     }
+                } else {
+                    getAdsById(adsId)
+                        .then((data) => {
+                            setUserProfile(data.user);
+                            setPageMode('guest');
+                        })
+                        .catch((error) => {
+                            console.error(
+                                'Error fetching workout data:',
+                                error
+                            );
+                            setPageMode('error');
+                        });
                 }
             }
         };
 
         fetchData();
-    }, [adsId]);
+    }, [adsId, guestModeState]);
 
     return (
         <div className="profile__wrapper">
             <BackToMain />
-            {guestModeState && !userProfile ? (
-                <h1>Для начала войдите в аккаунт</h1>
-            ) : (
+
+            {pageMode === 'not-logged' && (
+                <div className="before-login">
+                    <p className="before-login__text">
+                        Сначала войдите в аккаунт
+                    </p>
+                </div>
+            )}
+
+            {pageMode === 'my-profile' && userProfile && (
                 <>
-                    <Title
-                        titleText={
-                            guestModeState
-                                ? 'Профиль продавца'
-                                : 'Здравствуйте, Антон!'
-                        }
+                    <Title titleText={`Здравствуйте, ${userProfile?.name}!`} />
+                    <UserInfo userProfile={userProfile} />
+                    <Products
+                        userId={userProfile.id}
+                        titleText={'Мои товары'}
                     />
+                </>
+            )}
 
-                    {guestModeState && userProfile ? (
-                        <SellerInfo userProfile={userProfile} />
-                    ) : (
-                        <UserInfo />
-                    )}
-
-                    {userProfile?.id && (
-                        <Products
-                            userId={userProfile.id}
-                            titleText={
-                                guestModeState
-                                    ? 'Товары продавца'
-                                    : 'Мои товары'
-                            }
-                        />
-                    )}
+            {pageMode === 'guest' && userProfile && (
+                <>
+                    <Title titleText={'Профиль продавца'} />
+                    <SellerInfo userProfile={userProfile} />
+                    <Products
+                        userId={userProfile.id}
+                        titleText={'Товары продавца'}
+                    />
                 </>
             )}
         </div>

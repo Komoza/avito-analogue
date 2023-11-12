@@ -53,9 +53,11 @@ export const Info: React.FC<AdsInfoProps> = ({ currAds }) => {
                         <p className="seller__name">{currAds.user.name}</p>
                     </Link>
 
-                    <p className="seller__start">{`Продает товары с ${formatDate(
-                        currAds.user.sells_from
-                    )}`}</p>
+                    {currAds.user.sells_from && (
+                        <p className="seller__start">{`Продает товары с ${formatDate(
+                            currAds.user.sells_from
+                        )}`}</p>
+                    )}
                 </div>
             </div>
         </div>

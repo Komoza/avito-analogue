@@ -28,7 +28,9 @@ export const Products: React.FC<ProductsProps> = ({ userId, titleText }) => {
 
     return (
         <div className="my-products">
-            <h2 className="my-products__title">{titleText}</h2>
+            <h2 className="my-products__title">
+                {arrAds?.length ? titleText : 'Пока нет объявлений'}
+            </h2>
             <div className="advertisements">
                 {arrAds ? (
                     <div className="advertisements">

@@ -4,7 +4,6 @@ export const saveTokenToLocalStorage = (token: string) => {
 
 export const getTokenFromLocalStorage = () => {
     const token = localStorage.getItem('token');
-
     return token ? JSON.parse(token) : null;
 };
 

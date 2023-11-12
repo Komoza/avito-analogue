@@ -1,3 +1,16 @@
 .profile__wrapper {
     padding-bottom: 79px;
 }
+
+.before-login {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__text {
+        font-size: 54px;
+        font-weight: 500;
+        line-height: 60px;
+    }
+}

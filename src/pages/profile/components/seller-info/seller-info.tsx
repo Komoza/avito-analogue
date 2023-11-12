@@ -22,9 +22,13 @@ export const SellerInfo: React.FC<SellerInfoProps> = ({ userProfile }) => {
             <div className="seller-info__data">
                 <p className="seller-info__fullname">{userProfile.name}</p>
                 <p className="seller-info__city">{userProfile.city}</p>
-                <p className="seller-info__start">
-                    {`Продает товары с ${formatDate(userProfile.sells_from)}`}
-                </p>
+                {userProfile.sells_from && (
+                    <p className="seller-info__start">
+                        {`Продает товары с ${formatDate(
+                            userProfile.sells_from
+                        )}`}
+                    </p>
+                )}
                 {userProfile.phone && (
                     <CallingButton phoneNumber={userProfile.phone} />
                 )}
