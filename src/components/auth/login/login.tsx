@@ -3,6 +3,7 @@ import { loginUser } from '../../../api/user';
 import './login.scss';
 import { useDispatch } from 'react-redux';
 import { setGuestMode } from '../../../store/actions/creators/creators';
+import { saveTokenToLocalStorage } from '../../../utils/token';
 
 interface LoginProps {
     setModalMode: (value: string) => void;
@@ -27,8 +28,7 @@ export const Login: React.FC<LoginProps> = ({
             loginUser(inputEmail.current.value, inputPassword.current.value)
                 .then((data) => {
                     showError('');
-                    // НЕ ЗАБЫТЬ ЗАСУНУТЬ ТОКЕН В LocaleStorage
-                    console.log(data);
+                    saveTokenToLocalStorage(data);
                     setIsAuthModal(false);
                     dispatch(setGuestMode(false));
                 })

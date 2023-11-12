@@ -1,5 +1,5 @@
 import { host } from '../constant';
-import { userBack } from '../interface/global';
+import { Token, userBack } from '../interface/global';
 
 let url = '';
 
@@ -51,9 +51,27 @@ export const loginUser = async (email: string, password: string) => {
         if (response.status === 201) {
             return response.json();
         }
-        if ((response.status === 401) || (response.status === 422)) {
+        if (response.status === 401 || response.status === 422) {
             throw new Error('Проверьте логин или пароль');
         }
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};
+
+export const getUser = async (token: Token) => {
+    url = '/user';
+
+    return fetch(host + url, {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json',
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+    }).then((responce) => {
+        if (responce.status === 200) {
+            return responce.json();
+        }
+
         throw new Error('Неизвестная ошибка, попробуйте позже');
     });
 };

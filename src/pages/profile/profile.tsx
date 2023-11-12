@@ -10,6 +10,8 @@ import { getAdsById } from '../../api/ads';
 import { User } from '../../interface/global';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/actions/types/types';
+import { getUser } from '../../api/user';
+import { getTokenFromLocalStorage } from '../../utils/token';
 
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
@@ -20,13 +22,31 @@ export const Profile = () => {
     useEffect(() => {
         const fetchData = () => {
             if (adsId) {
-                getAdsById(adsId)
-                    .then((data) => {
-                        setUserProfile(data.user);
-                    })
-                    .catch((error) => {
-                        console.error('Error fetching workout data:', error);
-                    });
+                if (adsId !== 'me') {
+                    getAdsById(adsId)
+                        .then((data) => {
+                            setUserProfile(data.user);
+                        })
+                        .catch((error) => {
+                            console.error(
+                                'Error fetching workout data:',
+                                error
+                            );
+                        });
+                } else {
+                    if (getTokenFromLocalStorage()) {
+                        getUser(getTokenFromLocalStorage())
+                            .then((data) => {
+                                setUserProfile(data);
+                            })
+                            .catch((error) => {
+                                console.error(
+                                    'Error fetching workout data:',
+                                    error
+                                );
+                            });
+                    }
+                }
             }
         };
 
@@ -36,24 +56,35 @@ export const Profile = () => {
     return (
         <div className="profile__wrapper">
             <BackToMain />
-            <Title
-                titleText={
-                    guestModeState ? 'Профиль продавца' : 'Здравствуйте, Антон!'
-                }
-            />
-
-            {guestModeState && userProfile ? (
-                <SellerInfo userProfile={userProfile} />
+            {guestModeState && !userProfile ? (
+                <h1>Для начала войдите в аккаунт</h1>
             ) : (
-                <UserInfo />
-            )}
-            {userProfile?.id && (
-                <Products
-                    userId={userProfile.id}
-                    titleText={
-                        guestModeState ? 'Товары продавца' : 'Мои товары'
-                    }
-                />
+                <>
+                    <Title
+                        titleText={
+                            guestModeState
+                                ? 'Профиль продавца'
+                                : 'Здравствуйте, Антон!'
+                        }
+                    />
+
+                    {guestModeState && userProfile ? (
+                        <SellerInfo userProfile={userProfile} />
+                    ) : (
+                        <UserInfo />
+                    )}
+
+                    {userProfile?.id && (
+                        <Products
+                            userId={userProfile.id}
+                            titleText={
+                                guestModeState
+                                    ? 'Товары продавца'
+                                    : 'Мои товары'
+                            }
+                        />
+                    )}
+                </>
             )}
         </div>
     );

@@ -1,7 +1,8 @@
+import { getTokenFromLocalStorage } from '../../utils/token';
 import { ActionTypes, AppAction, AppState } from '../actions/types/types';
 
 const initialState: AppState = {
-    guestMode: true,
+    guestMode: !getTokenFromLocalStorage(),
 };
 
 const appReducer = (state = initialState, action: AppAction): AppState => {

@@ -38,4 +38,10 @@ interface Ads {
     user: User;
 }
 
-export type { Ads, Image, User, userBack };
+interface Token {
+    access_token: string;
+    refresh_token: string;
+    token_type: string;
+}
+
+export type { Ads, Image, User, userBack, Token };

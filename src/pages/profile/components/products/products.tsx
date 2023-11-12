@@ -24,7 +24,7 @@ export const Products: React.FC<ProductsProps> = ({ userId, titleText }) => {
         };
 
         fetchData();
-    }, []);
+    }, [userId]);
 
     return (
         <div className="my-products">

@@ -4,6 +4,7 @@ import { loginUser, registerUser } from '../../../api/user';
 import { useDispatch } from 'react-redux';
 import { setGuestMode } from '../../../store/actions/creators/creators';
 import { useNavigate } from 'react-router-dom';
+import { saveTokenToLocalStorage } from '../../../utils/token';
 
 interface SignupProps {
     setModalMode: (value: string) => void;
@@ -57,8 +58,7 @@ export const Signup: React.FC<SignupProps> = ({
                                 inputPassword.current.value
                             )
                                 .then((data) => {
-                                    // НЕ ЗАБЫТЬ ЗАСУНУТЬ ТОКЕН В LocaleStorage
-                                    console.log(data);
+                                    saveTokenToLocalStorage(data);
                                     navigate('/profile/12');
                                 })
                                 .catch(() => {

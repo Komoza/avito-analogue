@@ -5,6 +5,7 @@ import { Auth } from '../auth/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGuestMode } from '../../store/actions/creators/creators';
 import { AppState } from '../../store/actions/types/types';
+import { removeTokenFromLocalStorage } from '../../utils/token';
 
 export const Header = () => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
@@ -16,6 +17,7 @@ export const Header = () => {
     };
 
     const handleClickLogout = () => {
+        removeTokenFromLocalStorage();
         dispatch(setGuestMode(true));
     };
 
@@ -29,7 +31,7 @@ export const Header = () => {
                     <button className="user-actions__place-an-ad header__button">
                         Разместить объявление
                     </button>
-                    <Link to={'/profile'}>
+                    <Link to={'/profile/me'}>
                         <button className="user-actions__profile header__button">
                             Личный кабинет
                         </button>
