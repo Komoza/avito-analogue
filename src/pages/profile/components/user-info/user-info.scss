@@ -108,3 +108,15 @@
         padding-right: 37px;
     }
 }
+
+.user-save__wrap {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.success-update {
+    font-size: 20px;
+    color: green;
+    font-weight: 24px;
+}

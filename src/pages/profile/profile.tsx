@@ -94,7 +94,10 @@ export const Profile = () => {
             {pageMode === 'my-profile' && userProfile && (
                 <>
                     <Title titleText={`Здравствуйте, ${userProfile?.name}!`} />
-                    <UserInfo userProfile={userProfile} />
+                    <UserInfo
+                        userProfile={userProfile}
+                        setUserProfile={setUserProfile}
+                    />
                     <Products
                         userId={userProfile.id}
                         titleText={'Мои товары'}

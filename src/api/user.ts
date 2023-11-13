@@ -82,6 +82,37 @@ export const getUser = async (token: Token): Promise<User> => {
     });
 };
 
+export const updateUser = async (user: User, token: Token): Promise<User> => {
+    url = '/user';
+
+    return fetch(host + url, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json',
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+        body: JSON.stringify({
+            role: 'user',
+            email: user.email,
+            name: user.name,
+            surname: user.surname,
+            phone: user.phone,
+            city: user.city,
+        }),
+    }).then((responce) => {
+        if (responce.status === 200) {
+            return responce.json();
+        }
+
+        if (responce.status === 401) {
+            updateToken();
+            return updateUser(user, getTokenFromLocalStorage());
+        }
+
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};
+
 export const getAllUsers = async () => {
     url = '/user/all';
 

@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 import { User } from '../../../../interface/global';
 import './user-info.scss';
+import { updateUser } from '../../../../api/user';
+import { getTokenFromLocalStorage } from '../../../../utils/token';
 
 interface UserInfoProps {
     userProfile: User;
+    setUserProfile: (value: User) => void;
 }
 
-export const UserInfo: React.FC<UserInfoProps> = ({ userProfile }) => {
+export const UserInfo: React.FC<UserInfoProps> = ({
+    userProfile,
+    setUserProfile,
+}) => {
     const [userProfileState, setUserProfileState] = useState<User>(userProfile);
+    const [isSuccessMessage, setIsSuccessMessage] = useState<boolean>(false);
     const [notActiveSaveButton, setNotActiveSaveButton] =
         useState<boolean>(true);
-
-    const originUserData = { ...userProfile };
 
     const handleFocusInput = (event: React.FocusEvent) => {
         event.target.previousElementSibling?.classList.add(
@@ -38,14 +43,29 @@ export const UserInfo: React.FC<UserInfoProps> = ({ userProfile }) => {
             return;
         }
 
-        // Изменить пользователя
+        const fetchData = () => {
+            updateUser(userProfileState, getTokenFromLocalStorage())
+                .then((data) => {
+                    setUserProfile(data);
+                    setIsSuccessMessage(true);
+
+                    setTimeout(() => {
+                        setIsSuccessMessage(false);
+                    }, 3000);
+                })
+                .catch((error) => {
+                    console.error('Error fetching workout data:', error);
+                });
+        };
+
+        fetchData();
     };
 
     const changeButton = () => {
         for (const key in userProfileState) {
             if (
                 userProfileState[key as keyof User] !==
-                originUserData[key as keyof User]
+                userProfile[key as keyof User]
             ) {
                 setNotActiveSaveButton(false);
                 return;
@@ -59,6 +79,10 @@ export const UserInfo: React.FC<UserInfoProps> = ({ userProfile }) => {
         changeButton();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userProfileState]);
+
+    useEffect(() => {
+        setUserProfileState({ ...userProfile });
+    }, [userProfile]);
 
     return (
         <div className="profile-info">
@@ -140,14 +164,21 @@ export const UserInfo: React.FC<UserInfoProps> = ({ userProfile }) => {
                         />
                     </div>
 
-                    <button
-                        onClick={(event) => handleClickSaveUser(event)}
-                        className={`user__save blue-button${
-                            notActiveSaveButton ? '--not-active' : ''
-                        }`}
-                    >
-                        Сохранить
-                    </button>
+                    <div className="user-save__wrap">
+                        <button
+                            onClick={(event) => handleClickSaveUser(event)}
+                            className={`user__save blue-button${
+                                notActiveSaveButton ? '--not-active' : ''
+                            }`}
+                        >
+                            Сохранить
+                        </button>
+                        {isSuccessMessage && (
+                            <p className="success-update">
+                                Данные успешно изменены
+                            </p>
+                        )}
+                    </div>
                 </form>
             </div>
         </div>
