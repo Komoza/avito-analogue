@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '../../../../interface/global';
 import './user-info.scss';
 
@@ -8,6 +8,10 @@ interface UserInfoProps {
 
 export const UserInfo: React.FC<UserInfoProps> = ({ userProfile }) => {
     const [userProfileState, setUserProfileState] = useState<User>(userProfile);
+    const [notActiveSaveButton, setNotActiveSaveButton] =
+        useState<boolean>(true);
+
+    const originUserData = { ...userProfile };
 
     const handleFocusInput = (event: React.FocusEvent) => {
         event.target.previousElementSibling?.classList.add(
@@ -24,6 +28,38 @@ export const UserInfo: React.FC<UserInfoProps> = ({ userProfile }) => {
     const updateUserState = (value: string, field: string) => {
         setUserProfileState({ ...userProfileState, [field]: value });
     };
+
+    const handleClickSaveUser = (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        event.preventDefault();
+
+        if (notActiveSaveButton) {
+            return;
+        }
+
+        // Изменить пользователя
+    };
+
+    const changeButton = () => {
+        for (const key in userProfileState) {
+            if (
+                userProfileState[key as keyof User] !==
+                originUserData[key as keyof User]
+            ) {
+                setNotActiveSaveButton(false);
+                return;
+            }
+        }
+        setNotActiveSaveButton(true);
+        return;
+    };
+
+    useEffect(() => {
+        changeButton();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userProfileState]);
+
     return (
         <div className="profile-info">
             <h2 className="profile-info__title">Настройка профиля</h2>
@@ -104,7 +140,12 @@ export const UserInfo: React.FC<UserInfoProps> = ({ userProfile }) => {
                         />
                     </div>
 
-                    <button className="user__save blue-button">
+                    <button
+                        onClick={(event) => handleClickSaveUser(event)}
+                        className={`user__save blue-button${
+                            notActiveSaveButton ? '--not-active' : ''
+                        }`}
+                    >
                         Сохранить
                     </button>
                 </form>

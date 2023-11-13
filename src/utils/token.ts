@@ -14,9 +14,12 @@ export const removeTokenFromLocalStorage = () => {
     localStorage.removeItem('token');
 };
 
-export const updateToken = () => {
-    const token: Token = getTokenFromLocalStorage();
-    getNewToken(token).then((data) => {
+export const updateToken = async () => {
+    try {
+        const token: Token = getTokenFromLocalStorage();
+        const data = await getNewToken(token);
         saveTokenToLocalStorage(data);
-    });
+    } catch (error) {
+        throw new Error(`Ошибка при обновлении токена:`);
+    }
 };
