@@ -1,16 +1,28 @@
 import { Link } from 'react-router-dom';
 import './info.scss';
-import { Ads } from '../../../../interface/global';
+import { Ads, Comments } from '../../../../interface/global';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { formatDate } from '../../../../utils/advertisement';
+import { correctMessage, formatDate } from '../../../../utils/advertisement';
 import { host } from '../../../../constant';
 import { CallingButton } from '../../../../components/calling-button/calling-button';
+import { useEffect, useState } from 'react';
+import { getAllComments } from '../../../../api/ads';
 
 interface AdsInfoProps {
     currAds: Ads;
 }
 export const Info: React.FC<AdsInfoProps> = ({ currAds }) => {
+    const [comments, setComments] = useState<Comments[] | null>(null);
+    useEffect(() => {
+        getAllComments(currAds.id)
+            .then((data) => {
+                setComments(data);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
+    }, []);
     return (
         <div className="info">
             <p className="info__name">{currAds.title}</p>
@@ -25,9 +37,11 @@ export const Info: React.FC<AdsInfoProps> = ({ currAds }) => {
                 <p className="info__location">{currAds.user.city}</p>
             </div>
 
-            <p className="info__reviews">
-                <a>??? отзыва</a>
-            </p>
+            {comments && (
+                <p className="info__reviews">
+                    <a>{correctMessage(comments.length)} </a>
+                </p>
+            )}
 
             <div className="info__price">{`${currAds.price}  ₽`}</div>
 

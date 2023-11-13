@@ -50,3 +50,17 @@ export const formateNumber = (phoneNumber: string) => {
 
     return formatedNumber;
 };
+
+export const correctMessage = (num: number): string => {
+    if (num % 10 === 1 && num % 100 !== 11) {
+        return `${num} отзыв`;
+    } else if (
+        2 <= num % 10 &&
+        num % 10 <= 4 &&
+        (num % 100 < 10 || num % 100 >= 20)
+    ) {
+        return `${num} отзыва`;
+    } else {
+        return `${num} отзывов`;
+    }
+};

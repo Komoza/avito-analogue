@@ -44,4 +44,11 @@ interface Token {
     token_type: string;
 }
 
-export type { Ads, Image, User, userBack, Token };
+interface Comments {
+    author: User;
+    created_on: string;
+    id: number;
+    text: string;
+}
+
+export type { Ads, Image, User, userBack, Token, Comments };
