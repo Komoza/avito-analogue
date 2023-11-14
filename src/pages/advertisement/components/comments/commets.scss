@@ -1,0 +1,151 @@
+.comments-wrap {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.comments {
+    width: 800px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 20px 50px;
+    border-radius: 12px;
+    z-index: 30;
+    gap: 20px;
+
+    &__title {
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 70px;
+        letter-spacing: 0em;
+    }
+
+    &__feedback {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    &__add-text {
+        font-family: Noto Sans;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 32px;
+        letter-spacing: 0em;
+    }
+
+    &__add-input {
+        width: 100%;
+        height: 100px;
+        resize: none;
+        padding: 10px 19px;
+        outline: none;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 6px;
+
+        color: #000;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0em;
+        vertical-align: top;
+
+        &::placeholder {
+            color: rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    &__publish {
+        width: fit-content;
+        padding-left: 37px;
+        padding-right: 37px;
+    }
+}
+
+.comment-wrap {
+    margin-top: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.comment {
+    display: flex;
+    gap: 12px;
+
+    &__avatar {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    &__user-info {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__name {
+        color: #000;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 32px;
+        letter-spacing: 0em;
+    }
+
+    &__date {
+        color: #5f5f5f;
+        font-family: Noto Sans;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 32px;
+        letter-spacing: 0em;
+    }
+
+    &__seller-tag {
+        color: green;
+        font-family: Noto Sans;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 32px;
+        letter-spacing: 0em;
+    }
+
+    &__text-wrap {
+    }
+
+    &__text-title {
+        font-family: Noto Sans;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 32px;
+        letter-spacing: 0em;
+    }
+
+    &__text {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+    }
+
+    &__empty-arr {
+        font-size: 22px;
+        line-height: 24px;
+        font-weight: 500;
+    }
+}

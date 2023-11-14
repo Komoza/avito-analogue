@@ -1,14 +1,14 @@
 import './background-dark.scss';
 
 interface BackgorundDarkProps {
-    setIsAuthModal: (value: boolean) => void;
+    closeModal: (value: boolean) => void;
 }
 
 export const BackgorundDark: React.FC<BackgorundDarkProps> = ({
-    setIsAuthModal,
+    closeModal,
 }) => {
     const handleClickBackground = () => {
-        setIsAuthModal(false);
+        closeModal(false);
     };
 
     return (

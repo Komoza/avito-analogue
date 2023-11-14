@@ -6,23 +6,21 @@ import { ru } from 'date-fns/locale';
 import { correctMessage, formatDate } from '../../../../utils/advertisement';
 import { host } from '../../../../constant';
 import { CallingButton } from '../../../../components/calling-button/calling-button';
-import { useEffect, useState } from 'react';
-import { getAllComments } from '../../../../api/ads';
 
 interface AdsInfoProps {
     currAds: Ads;
+    comments: Comments[] | null;
+    setIsCommetnsWindow: (value: boolean) => void;
 }
-export const Info: React.FC<AdsInfoProps> = ({ currAds }) => {
-    const [comments, setComments] = useState<Comments[] | null>(null);
-    useEffect(() => {
-        getAllComments(currAds.id)
-            .then((data) => {
-                setComments(data);
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
-    }, []);
+export const Info: React.FC<AdsInfoProps> = ({
+    currAds,
+    comments,
+    setIsCommetnsWindow,
+}) => {
+    const handleClickComments = () => {
+        setIsCommetnsWindow(true);
+    };
+
     return (
         <div className="info">
             <p className="info__name">{currAds.title}</p>
@@ -39,7 +37,12 @@ export const Info: React.FC<AdsInfoProps> = ({ currAds }) => {
 
             {comments && (
                 <p className="info__reviews">
-                    <a>{correctMessage(comments.length)} </a>
+                    <button
+                        onClick={handleClickComments}
+                        className="info__reviews-button"
+                    >
+                        {correctMessage(comments.length)}{' '}
+                    </button>
                 </p>
             )}
 

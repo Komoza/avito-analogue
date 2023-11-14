@@ -25,7 +25,7 @@ export const Auth: React.FC<AuthProps> = ({
 
     return (
         <div className="auth">
-            <BackgorundDark setIsAuthModal={setIsAuthModal} />
+            <BackgorundDark closeModal={setIsAuthModal} />
             {modalMode === 'login' && (
                 <Login
                     setModalMode={setModalMode}
