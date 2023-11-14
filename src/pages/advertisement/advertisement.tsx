@@ -41,9 +41,11 @@ export const Advertisement = () => {
 
     return (
         <div className="advertisement">
-            {isCommentsWindow && comments && (
+            {isCommentsWindow && currAds && comments && (
                 <CommentsWindow
+                    sellerId={currAds.user_id}
                     comments={comments}
+                    setComments={setComments}
                     setIsCommetnsWindow={setIsCommetnsWindow}
                 />
             )}

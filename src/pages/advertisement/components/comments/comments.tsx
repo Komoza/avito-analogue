@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BackgorundDark } from '../../../../components/background-dark/background-dark';
 import { Comments } from '../../../../interface/global';
 import './commets.scss';
@@ -6,18 +6,29 @@ import { host } from '../../../../constant';
 import { Link, useParams } from 'react-router-dom';
 import { ru } from 'date-fns/locale';
 import { format, parseISO } from 'date-fns';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../../store/actions/types/types';
+import { postComments } from '../../../../api/ads';
+import { getTokenFromLocalStorage } from '../../../../utils/token';
 
 interface CommentsWindowProps {
     comments: Comments[];
     setIsCommetnsWindow: (value: boolean) => void;
+    sellerId: number;
+    setComments: (value: Comments[]) => void;
 }
 
 export const CommentsWindow: React.FC<CommentsWindowProps> = ({
     comments,
     setIsCommetnsWindow,
+    sellerId,
+    setComments,
 }) => {
     const [isNotActiveButton, setIsNotActiveButton] = useState<boolean>(true);
-    const userId = useParams();
+    const guestMode = useSelector((state: AppState) => state.guestMode);
+    const asdId = useParams();
+
+    const refTextarea = useRef<HTMLTextAreaElement | null>(null);
 
     const handleChangeTextarea = (
         event: React.ChangeEvent<HTMLTextAreaElement>
@@ -35,7 +46,23 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
             return;
         }
 
-        console.log('Отзыв опубликован');
+        if (asdId.id && refTextarea.current) {
+            postComments(
+                parseInt(asdId.id),
+                refTextarea.current.value,
+                getTokenFromLocalStorage()
+            )
+                .then((data) => {
+                    setComments([...comments, data]);
+                    if (refTextarea.current) {
+                        refTextarea.current.value = '';
+                        setIsNotActiveButton(true);
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     };
 
     useEffect(() => {
@@ -50,23 +77,30 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
             <BackgorundDark closeModal={setIsCommetnsWindow} />
             <div className="comments">
                 <p className="comments__title">Отзывы о товаре</p>
-                <div className="comments__feedback">
-                    <p className="comments__add-text">Добавить отзыв</p>
-                    <textarea
-                        onChange={(event) => handleChangeTextarea(event)}
-                        name="comment"
-                        className="comments__add-input"
-                        placeholder="Введите отзыв"
-                    />
-                    <button
-                        onClick={handleClickPublish}
-                        className={`comments__publish blue-button${
-                            isNotActiveButton ? '--not-active' : ''
-                        } `}
-                    >
-                        Опубликовать
-                    </button>
-                </div>
+                {guestMode ? (
+                    <p className="comments__guest-mode">
+                        Чтобы оставить отзыв необходимо войти в аккаунт
+                    </p>
+                ) : (
+                    <div className="comments__feedback">
+                        <p className="comments__add-text">Добавить отзыв</p>
+                        <textarea
+                            ref={refTextarea}
+                            onChange={(event) => handleChangeTextarea(event)}
+                            name="comment"
+                            className="comments__add-input"
+                            placeholder="Введите отзыв"
+                        />
+                        <button
+                            onClick={handleClickPublish}
+                            className={`comments__publish blue-button${
+                                isNotActiveButton ? '--not-active' : ''
+                            } `}
+                        >
+                            Опубликовать
+                        </button>
+                    </div>
+                )}
 
                 {comments.length ? (
                     <div className="comment-wrap">
@@ -104,13 +138,11 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
                                                 )}
                                             </p>
 
-                                            {userId.id &&
-                                                userId.id ==
-                                                    comment.author.id.toString() && (
-                                                    <p className="comment__seller-tag">
-                                                        Продавец
-                                                    </p>
-                                                )}
+                                            {sellerId === comment.author.id && (
+                                                <p className="comment__seller-tag">
+                                                    Продавец
+                                                </p>
+                                            )}
                                         </div>
                                         <div className="comment__text-wrap">
                                             <p className="comment__text-title">
@@ -126,7 +158,7 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
                         })}
                     </div>
                 ) : (
-                    <p className="comment__empty-arr">Добавьте первый отзыв</p>
+                    <p className="comment__empty-arr">Отзывов нет</p>
                 )}
             </div>
         </div>
