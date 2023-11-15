@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setGuestMode } from '../../store/actions/creators/creators';
 import { AppState } from '../../store/actions/types/types';
 import { removeTokenFromLocalStorage } from '../../utils/token';
+import { AdsSetting } from '../ads-setting/ads-setting';
 
 export const Header = () => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
+    const [isAdsModal, setIsAdsModal] = useState<boolean>(false);
     const guestModeState = useSelector((state: AppState) => state.guestMode);
     const dispatch = useDispatch();
 
@@ -21,14 +23,22 @@ export const Header = () => {
         dispatch(setGuestMode(true));
     };
 
+    const handleClickPlaceAnAd = () => {
+        setIsAdsModal(true);
+    };
+
     return (
         <div className="header">
+            {isAdsModal && <AdsSetting setIsAdsModal={setIsAdsModal} />}
             {isAuthModal && (
                 <Auth setIsAuthModal={setIsAuthModal} modalModeName={'login'} />
             )}
             {!guestModeState ? (
                 <div className="header__user-actions user-actions">
-                    <button className="user-actions__place-an-ad header__button">
+                    <button
+                        onClick={handleClickPlaceAnAd}
+                        className="user-actions__place-an-ad header__button"
+                    >
                         Разместить объявление
                     </button>
                     <Link to={'/profile/me'}>
