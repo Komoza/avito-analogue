@@ -130,6 +130,31 @@ export const getAllUsers = async () => {
     });
 };
 
+export const postUserAvatar = async (
+    token: Token,
+    image: FormData
+): Promise<User> => {
+    url = '/user/avatar';
+
+    return fetch(host + url, {
+        method: 'POST',
+        headers: {
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+        body: image,
+    }).then((responce) => {
+        if (responce.status === 201) {
+            return responce.json();
+        }
+
+        if (responce.status === 401) {
+            updateToken();
+            return postUserAvatar(getTokenFromLocalStorage(), image);
+        }
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};
+
 export const getNewToken = async (token: Token) => {
     url = '/auth/login';
 

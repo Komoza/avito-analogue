@@ -53,7 +53,7 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
                 getTokenFromLocalStorage()
             )
                 .then((data) => {
-                    setComments([...comments, data]);
+                    setComments([data, ...comments]);
                     if (refTextarea.current) {
                         refTextarea.current.value = '';
                         setIsNotActiveButton(true);

@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { User } from '../../../../interface/global';
 import './user-info.scss';
-import { updateUser } from '../../../../api/user';
+import { postUserAvatar, updateUser } from '../../../../api/user';
 import { getTokenFromLocalStorage } from '../../../../utils/token';
+import { host } from '../../../../constant';
 
 interface UserInfoProps {
     userProfile: User;
@@ -17,6 +18,8 @@ export const UserInfo: React.FC<UserInfoProps> = ({
     const [isSuccessMessage, setIsSuccessMessage] = useState<boolean>(false);
     const [notActiveSaveButton, setNotActiveSaveButton] =
         useState<boolean>(true);
+
+    const refFile = useRef<HTMLInputElement | null>(null);
 
     const handleFocusInput = (event: React.FocusEvent) => {
         event.target.previousElementSibling?.classList.add(
@@ -61,6 +64,26 @@ export const UserInfo: React.FC<UserInfoProps> = ({
         fetchData();
     };
 
+    const handleClickChangeAvatar = () => {
+        refFile.current?.click();
+    };
+
+    const handleChangeAvatar = () => {
+        if (refFile.current?.files) {
+            const file = refFile.current.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            postUserAvatar(getTokenFromLocalStorage(), formData)
+                .then((data) => {
+                    setUserProfile(data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    };
+
     const changeButton = () => {
         for (const key in userProfileState) {
             if (
@@ -91,11 +114,27 @@ export const UserInfo: React.FC<UserInfoProps> = ({
             <div className="profile-info__user user">
                 <div className="user__image-wrapper">
                     <img
-                        src="/image/no-avatar.png"
+                        src={
+                            userProfileState.avatar
+                                ? `${host}/${userProfileState.avatar}`
+                                : '/image/no-avatar.png'
+                        }
                         alt="avatar"
                         className="user__image"
                     />
-                    <button className="user__change-avatar">Заменить</button>
+                    <button
+                        onClick={handleClickChangeAvatar}
+                        className="user__change-avatar"
+                    >
+                        Изменить
+                    </button>
+                    <input
+                        ref={refFile}
+                        onChange={handleChangeAvatar}
+                        className="user__change-avatar--input"
+                        type="file"
+                        accept="image/png, image/jpeg"
+                    />
                 </div>
 
                 <form className="user__data">
