@@ -1,5 +1,5 @@
 import { host } from '../constant';
-import { Comments, Token } from '../interface/global';
+import { Ads, Comments, Token } from '../interface/global';
 import { getTokenFromLocalStorage, updateToken } from '../utils/token';
 
 let url = '';
@@ -80,6 +80,66 @@ export const postComments = async (
         if (response.status === 401) {
             updateToken();
             return postComments(asdId, commentText, getTokenFromLocalStorage());
+        }
+
+        throw new Error('Ошибка...');
+    });
+};
+
+export const postAds = async (
+    ads: {
+        title: string;
+        description: string;
+        price: number;
+    },
+    token: Token,
+    images: FormData[]
+): Promise<Ads> => {
+    url = `/ads?title=${ads.title}&description=${ads.description}&price=${ads.price}`;
+    return fetch(host + url, {
+        method: 'POST',
+        headers: {
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+        body: JSON.stringify(images),
+    }).then((response) => {
+        if (response.status === 201) {
+            return response.json();
+        }
+
+        if (response.status === 401) {
+            updateToken();
+            return postAds(ads, getTokenFromLocalStorage(), images);
+        }
+
+        throw new Error('Ошибка...');
+    });
+};
+
+export const postAdsText = async (
+    ads: {
+        title: string;
+        description: string;
+        price: number;
+    },
+    token: Token
+): Promise<Ads> => {
+    url = '/adstext';
+    return fetch(host + url, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+        body: JSON.stringify(ads),
+    }).then((response) => {
+        if (response.status === 201) {
+            return response.json();
+        }
+
+        if (response.status === 401) {
+            updateToken();
+            return postAdsText(ads, getTokenFromLocalStorage());
         }
 
         throw new Error('Ошибка...');

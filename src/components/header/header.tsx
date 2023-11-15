@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setGuestMode } from '../../store/actions/creators/creators';
 import { AppState } from '../../store/actions/types/types';
 import { removeTokenFromLocalStorage } from '../../utils/token';
-import { AdsSetting } from '../ads-setting/ads-setting';
+import { AdsSettingTextOnly } from '../ads-setting/ads-setting-text-only';
 
 export const Header = () => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
@@ -29,7 +29,7 @@ export const Header = () => {
 
     return (
         <div className="header">
-            {isAdsModal && <AdsSetting setIsAdsModal={setIsAdsModal} />}
+            {isAdsModal && <AdsSettingTextOnly setIsAdsModal={setIsAdsModal} />}
             {isAuthModal && (
                 <Auth setIsAuthModal={setIsAuthModal} modalModeName={'login'} />
             )}
