@@ -1,6 +1,8 @@
 .header {
-    position: relative;
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 79px;
     display: flex;
     z-index: 20;
@@ -8,7 +10,8 @@
     align-items: center;
     background-color: #009ee4;
 
-    &__user-actions, &__login {
+    &__user-actions,
+    &__login {
         width: 100%;
         max-width: 1220px;
         padding: 0 30px;

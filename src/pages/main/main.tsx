@@ -6,6 +6,7 @@ import './main.scss';
 import { getAllAds } from '../../api/ads';
 import { useEffect, useState } from 'react';
 import { Ads } from '../../interface/global';
+import { Header } from '../../components/header/header';
 
 export const Main = () => {
     const [arrAds, setArrAds] = useState<Ads[] | null>(null);
@@ -25,6 +26,7 @@ export const Main = () => {
     }, []);
     return (
         <div className="main">
+            <Header />
             <SearchBar />
             <Title />
             {arrAds ? (

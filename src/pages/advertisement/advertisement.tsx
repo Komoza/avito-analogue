@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { getAdsById, getAllComments } from '../../api/ads';
 import { Ads, Comments } from '../../interface/global';
 import { CommentsWindow } from './components/comments/comments';
+import { Header } from '../../components/header/header';
 
 export const Advertisement = () => {
     const [currAds, setCurrAds] = useState<Ads | null>(null);
@@ -41,6 +42,8 @@ export const Advertisement = () => {
 
     return (
         <div className="advertisement">
+            <Header />
+
             {isCommentsWindow && currAds && comments && (
                 <CommentsWindow
                     sellerId={currAds.user_id}

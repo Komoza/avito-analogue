@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../store/actions/types/types';
 import { getAllUsers, getUser } from '../../api/user';
 import { getTokenFromLocalStorage } from '../../utils/token';
+import { Header } from '../../components/header/header';
 
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
@@ -75,6 +76,7 @@ export const Profile = () => {
 
     return (
         <div className="profile__wrapper">
+            <Header />
             <BackToMain />
 
             {pageMode === 'not-logged' && (
