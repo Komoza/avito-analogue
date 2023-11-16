@@ -1,11 +1,5 @@
 export interface AppState {
-    guestMode: boolean;
     userId: number | null;
-}
-
-export interface SetGuestMode {
-    type: ActionTypes.SET_GUEST_MODE;
-    payload: boolean;
 }
 
 export interface SetUserId {
@@ -14,7 +8,6 @@ export interface SetUserId {
 }
 
 export enum ActionTypes {
-    SET_GUEST_MODE = 'SET_GUEST_MODE',
     SET_USER_ID = 'SET_USER_ID',
 }
-export type AppAction = SetGuestMode | SetUserId;
+export type AppAction = SetUserId;

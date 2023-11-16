@@ -25,7 +25,7 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
     setComments,
 }) => {
     const [isNotActiveButton, setIsNotActiveButton] = useState<boolean>(true);
-    const guestMode = useSelector((state: AppState) => state.guestMode);
+    const userIdState = useSelector((state: AppState) => state.userId);
     const asdId = useParams();
 
     const refTextarea = useRef<HTMLTextAreaElement | null>(null);
@@ -77,7 +77,7 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
             <BackgorundDark closeModal={setIsCommetnsWindow} />
             <div className="comments">
                 <p className="comments__title">Отзывы о товаре</p>
-                {guestMode ? (
+                {!userIdState ? (
                     <p className="comments__guest-mode">
                         Чтобы оставить отзыв необходимо войти в аккаунт
                     </p>

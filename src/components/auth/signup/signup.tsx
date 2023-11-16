@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import './signup.scss';
 import { loginUser, registerUser } from '../../../api/user';
-import { useDispatch } from 'react-redux';
-import { setGuestMode } from '../../../store/actions/creators/creators';
 import { useNavigate } from 'react-router-dom';
 import { saveTokenToLocalStorage } from '../../../utils/token';
 import { saveUserIdToState } from '../../../utils/users';
@@ -23,7 +21,6 @@ export const Signup: React.FC<SignupProps> = ({
     const inputCity = useRef<HTMLInputElement | null>(null);
     const errorMessage = useRef<HTMLParagraphElement | null>(null);
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleClickLogin = () => {
@@ -51,7 +48,6 @@ export const Signup: React.FC<SignupProps> = ({
                     city: inputCity.current.value,
                 })
                     .then(() => {
-                        dispatch(setGuestMode(false));
                         setIsAuthModal(false);
                         if (inputPassword.current && inputEmail.current) {
                             loginUser(

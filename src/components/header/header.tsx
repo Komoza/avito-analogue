@@ -3,7 +3,7 @@ import './header.scss';
 import { useState } from 'react';
 import { Auth } from '../auth/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGuestMode, setUserId } from '../../store/actions/creators/creators';
+import { setUserId } from '../../store/actions/creators/creators';
 import { AppState } from '../../store/actions/types/types';
 import { removeTokenFromLocalStorage } from '../../utils/token';
 import { AdsSettingTextOnly } from '../ads-setting/ads-setting-text-only';
@@ -11,7 +11,7 @@ import { AdsSettingTextOnly } from '../ads-setting/ads-setting-text-only';
 export const Header = () => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
     const [isAdsModal, setIsAdsModal] = useState<boolean>(false);
-    const guestModeState = useSelector((state: AppState) => state.guestMode);
+    const userIdState = useSelector((state: AppState) => state.userId);
     const dispatch = useDispatch();
 
     const handleClickLogin = () => {
@@ -20,7 +20,6 @@ export const Header = () => {
 
     const handleClickLogout = () => {
         removeTokenFromLocalStorage();
-        dispatch(setGuestMode(true));
         dispatch(setUserId(null));
     };
 
@@ -34,7 +33,7 @@ export const Header = () => {
             {isAuthModal && (
                 <Auth setIsAuthModal={setIsAuthModal} modalModeName={'login'} />
             )}
-            {!guestModeState ? (
+            {userIdState ? (
                 <div className="header__user-actions user-actions">
                     <button
                         onClick={handleClickPlaceAnAd}

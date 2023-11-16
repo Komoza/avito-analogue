@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import { loginUser } from '../../../api/user';
 import './login.scss';
-import { useDispatch } from 'react-redux';
-import { setGuestMode } from '../../../store/actions/creators/creators';
 import { saveTokenToLocalStorage } from '../../../utils/token';
 import { saveUserIdToState } from '../../../utils/users';
 
@@ -18,8 +16,6 @@ export const Login: React.FC<LoginProps> = ({
     const inputEmail = useRef<HTMLInputElement | null>(null);
     const inputPassword = useRef<HTMLInputElement | null>(null);
 
-    const dispatch = useDispatch();
-
     const handleClickSignup = () => {
         setModalMode('signup');
     };
@@ -32,7 +28,6 @@ export const Login: React.FC<LoginProps> = ({
                     saveTokenToLocalStorage(data);
                     saveUserIdToState(data);
                     setIsAuthModal(false);
-                    dispatch(setGuestMode(false));
                 })
                 .catch((error) => {
                     showError(error.message);
