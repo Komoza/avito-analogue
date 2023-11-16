@@ -4,9 +4,11 @@ import { setUserId } from '../store/actions/creators/creators';
 import store from '../store/store';
 
 export const saveUserIdToState = (token: Token) => {
-    getUser(token)
-        .then((data) => {
-            store.dispatch(setUserId(data.id));
-        })
-        .catch((error) => console.error(error));
+    if (token) {
+        getUser(token)
+            .then((data) => {
+                store.dispatch(setUserId(data.id));
+            })
+            .catch((error) => console.error(error));
+    }
 };

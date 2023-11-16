@@ -17,13 +17,14 @@ export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
     const [pageMode, setPageMode] = useState<string>('guest'); // guest, not-logged, my-profile, error, not-found-user
     const guestModeState = useSelector((state: AppState) => state.guestMode);
+    const userIdState = useSelector((state: AppState) => state.userId);
 
     const userID = useParams().id;
 
     useEffect(() => {
         const fetchData = () => {
             if (userID) {
-                if (userID === 'me') {
+                if (userID === 'me' || parseInt(userID) === userIdState) {
                     if (!guestModeState) {
                         getUser(getTokenFromLocalStorage())
                             .then((data) => {
@@ -72,7 +73,7 @@ export const Profile = () => {
         };
 
         fetchData();
-    }, [userID, guestModeState]);
+    }, [userID, guestModeState, userIdState]);
 
     return (
         <div className="profile__wrapper">
