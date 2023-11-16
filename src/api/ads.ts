@@ -39,6 +39,31 @@ export const getAdsById = async (id: string) => {
     });
 };
 
+export const deleteAdsById = async (
+    id: string,
+    token: Token
+): Promise<void> => {
+    url = `/ads/${id}`;
+
+    return fetch(host + url, {
+        method: 'DELETE',
+        headers: {
+            'content-type': 'application/json',
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+    }).then((response) => {
+        if (response.status === 200) {
+            return response.json();
+        }
+        if (response.status === 401) {
+            updateToken();
+            return deleteAdsById(id, getTokenFromLocalStorage());
+        }
+
+        throw new Error('Ошибка...');
+    });
+};
+
 export const getAllComments = async (asdId: number) => {
     url = `/ads/${asdId}/comments`;
 

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './info.scss';
 import { Ads, Comments } from '../../../../interface/global';
 import { formatDistanceToNow } from 'date-fns';
@@ -8,6 +8,8 @@ import { host } from '../../../../constant';
 import { CallingButton } from '../../../../components/calling-button/calling-button';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store/actions/types/types';
+import { getTokenFromLocalStorage } from '../../../../utils/token';
+import { deleteAdsById } from '../../../../api/ads';
 
 interface AdsInfoProps {
     currAds: Ads;
@@ -20,11 +22,19 @@ export const Info: React.FC<AdsInfoProps> = ({
     setIsCommetnsWindow,
 }) => {
     const userIdState = useSelector((state: AppState) => state.userId);
+    const navigate = useNavigate();
 
     const handleClickComments = () => {
         setIsCommetnsWindow(true);
     };
 
+    const handleClickDeleteAds = () => {
+        deleteAdsById(currAds.id.toString(), getTokenFromLocalStorage())
+            .then(() => {
+                navigate('/profile/me');
+            })
+            .catch((error) => console.error(error));
+    };
     return (
         <div className="info">
             <p className="info__name">{currAds.title}</p>
@@ -61,7 +71,10 @@ export const Info: React.FC<AdsInfoProps> = ({
                     <button className="info__edit-ads blue-button">
                         Редактировать
                     </button>
-                    <button className="info__remove-ads blue-button">
+                    <button
+                        onClick={handleClickDeleteAds}
+                        className="info__remove-ads blue-button"
+                    >
                         Снять с публикации
                     </button>
                 </div>
