@@ -59,12 +59,23 @@
 
     &__price {
         margin-top: 34px;
-
         font-family: Noto Sans;
         font-size: 28px;
         font-weight: 700;
         line-height: 39px;
         letter-spacing: 0em;
+    }
+
+    &__edit-buttons {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    &__edit-ads,
+    &__remove-ads {
+        padding-left: 37px;
+        padding-right: 37px;
     }
 
     &__seller {

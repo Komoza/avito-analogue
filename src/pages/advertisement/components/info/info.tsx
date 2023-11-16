@@ -6,6 +6,8 @@ import { ru } from 'date-fns/locale';
 import { correctMessage, formatDate } from '../../../../utils/advertisement';
 import { host } from '../../../../constant';
 import { CallingButton } from '../../../../components/calling-button/calling-button';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../../store/actions/types/types';
 
 interface AdsInfoProps {
     currAds: Ads;
@@ -17,6 +19,8 @@ export const Info: React.FC<AdsInfoProps> = ({
     comments,
     setIsCommetnsWindow,
 }) => {
+    const userIdState = useSelector((state: AppState) => state.userId);
+
     const handleClickComments = () => {
         setIsCommetnsWindow(true);
     };
@@ -48,10 +52,20 @@ export const Info: React.FC<AdsInfoProps> = ({
 
             <div className="info__price">{`${currAds.price}  ₽`}</div>
 
-            {currAds.user.phone && (
-                <CallingButton phoneNumber={currAds.user.phone} />
+            {userIdState !== currAds.user_id ? (
+                currAds.user.phone && (
+                    <CallingButton phoneNumber={currAds.user.phone} />
+                )
+            ) : (
+                <div className="info__edit-buttons">
+                    <button className="info__edit-ads blue-button">
+                        Редактировать
+                    </button>
+                    <button className="info__remove-ads blue-button">
+                        Снять с публикации
+                    </button>
+                </div>
             )}
-
             <div className="info__seller seller">
                 <img
                     src={
