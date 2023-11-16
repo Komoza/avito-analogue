@@ -3,7 +3,7 @@ import './header.scss';
 import { useState } from 'react';
 import { Auth } from '../auth/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGuestMode } from '../../store/actions/creators/creators';
+import { setGuestMode, setUserId } from '../../store/actions/creators/creators';
 import { AppState } from '../../store/actions/types/types';
 import { removeTokenFromLocalStorage } from '../../utils/token';
 import { AdsSettingTextOnly } from '../ads-setting/ads-setting-text-only';
@@ -21,6 +21,7 @@ export const Header = () => {
     const handleClickLogout = () => {
         removeTokenFromLocalStorage();
         dispatch(setGuestMode(true));
+        dispatch(setUserId(null));
     };
 
     const handleClickPlaceAnAd = () => {

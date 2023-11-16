@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setGuestMode } from '../../../store/actions/creators/creators';
 import { useNavigate } from 'react-router-dom';
 import { saveTokenToLocalStorage } from '../../../utils/token';
+import { saveUserIdToState } from '../../../utils/users';
 
 interface SignupProps {
     setModalMode: (value: string) => void;
@@ -58,8 +59,9 @@ export const Signup: React.FC<SignupProps> = ({
                                 inputPassword.current.value
                             )
                                 .then((data) => {
+                                    saveUserIdToState(data);
                                     saveTokenToLocalStorage(data);
-                                    navigate('/profile/12');
+                                    navigate('/profile/me');
                                 })
                                 .catch(() => {
                                     setModalMode('login');
