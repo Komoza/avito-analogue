@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { BackgorundDark } from '../background-dark/background-dark';
 import './ads-setting.scss';
 import { getTokenFromLocalStorage } from '../../utils/token';
-import { postAdsText } from '../../api/ads';
+import { postAdsText, updateAds } from '../../api/ads';
 import { useNavigate } from 'react-router-dom';
-import { Image } from '../../interface/global';
+import { Ads, Image } from '../../interface/global';
 
 interface AdsSettingProps {
     setIsAdsModal: (value: boolean) => void;
@@ -14,15 +14,22 @@ interface AdsSettingProps {
         description: string;
         price: number | null;
         images: Image[];
+        id: number;
     };
+    setCurrAds?: (value: Ads) => void;
 }
 
 export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
     setIsAdsModal,
     viewMode,
     ads,
+    setCurrAds,
 }) => {
-    const [isNotActiveButton, setIsNotActiveButton] = useState<boolean>(true);
+    const [isNotActiveButtonPublic, setIsNotActiveButtonPublic] =
+        useState<boolean>(true);
+    const [isNotActiveButtonEdit, setIsNotActiveButtonEdit] =
+        useState<boolean>(true);
+
     const refName = useRef<HTMLInputElement | null>(null);
     const refDescription = useRef<HTMLTextAreaElement | null>(null);
     const refPrice = useRef<HTMLInputElement | null>(null);
@@ -79,11 +86,26 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         if (refName.current) {
             if (refName.current.value !== '') {
                 refName.current.classList.remove('--error-input');
-                setIsNotActiveButton(false);
+                setIsNotActiveButtonPublic(false);
             } else {
-                setIsNotActiveButton(true);
+                setIsNotActiveButtonPublic(true);
             }
         }
+    };
+
+    const handleClickEditButton = (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        event.preventDefault();
+        setIsNotActiveButtonEdit(false);
+        updateAds({ ...adsState }, getTokenFromLocalStorage())
+            .then((data) => {
+                if (setCurrAds) {
+                    setCurrAds(data);
+                    setIsAdsModal(false);
+                }
+            })
+            .catch((error) => console.error(error));
     };
 
     return (
@@ -149,7 +171,7 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
                     <button
                         onClick={(e) => handleClickPublic(e)}
                         className={`ads-set__public blue-button${
-                            isNotActiveButton ? '--not-active' : ''
+                            isNotActiveButtonPublic ? '--not-active' : ''
                         }`}
                     >
                         Опубликовать
@@ -158,8 +180,9 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
 
                 {viewMode === 'edit' && (
                     <button
+                        onClick={(event) => handleClickEditButton(event)}
                         className={`ads-set__public blue-button${
-                            isNotActiveButton ? '--not-active' : ''
+                            isNotActiveButtonEdit ? '--not-active' : ''
                         }`}
                     >
                         Сохранить

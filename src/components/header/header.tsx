@@ -9,6 +9,7 @@ import { removeTokenFromLocalStorage } from '../../utils/token';
 import { AdsSettingTextOnly } from '../ads-setting/ads-setting-text-only';
 
 const emptyAds = {
+    id: 0,
     title: '',
     description: '',
     price: null,

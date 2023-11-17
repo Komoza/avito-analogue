@@ -51,11 +51,13 @@ export const Advertisement = () => {
                     setIsAdsModal={setIsAdsModal}
                     viewMode="edit"
                     ads={{
+                        id: currAds.id,
                         title: currAds.title,
                         description: currAds.description,
                         price: currAds.price,
                         images: [],
                     }}
+                    setCurrAds={setCurrAds}
                 />
             )}
 
