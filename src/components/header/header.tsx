@@ -8,6 +8,13 @@ import { AppState } from '../../store/actions/types/types';
 import { removeTokenFromLocalStorage } from '../../utils/token';
 import { AdsSettingTextOnly } from '../ads-setting/ads-setting-text-only';
 
+const emptyAds = {
+    title: '',
+    description: '',
+    price: null,
+    images: [],
+};
+
 export const Header = () => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
     const [isAdsModal, setIsAdsModal] = useState<boolean>(false);
@@ -29,7 +36,13 @@ export const Header = () => {
 
     return (
         <div className="header">
-            {isAdsModal && <AdsSettingTextOnly setIsAdsModal={setIsAdsModal} />}
+            {isAdsModal && (
+                <AdsSettingTextOnly
+                    setIsAdsModal={setIsAdsModal}
+                    viewMode="new"
+                    ads={emptyAds}
+                />
+            )}
             {isAuthModal && (
                 <Auth setIsAuthModal={setIsAuthModal} modalModeName={'login'} />
             )}

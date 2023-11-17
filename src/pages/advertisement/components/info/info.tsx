@@ -15,11 +15,13 @@ interface AdsInfoProps {
     currAds: Ads;
     comments: Comments[] | null;
     setIsCommetnsWindow: (value: boolean) => void;
+    setIsAdsModal: (value: boolean) => void;
 }
 export const Info: React.FC<AdsInfoProps> = ({
     currAds,
     comments,
     setIsCommetnsWindow,
+    setIsAdsModal,
 }) => {
     const userIdState = useSelector((state: AppState) => state.userId);
     const navigate = useNavigate();
@@ -28,6 +30,9 @@ export const Info: React.FC<AdsInfoProps> = ({
         setIsCommetnsWindow(true);
     };
 
+    const handleClickEditAds = () => {
+        setIsAdsModal(true);
+    };
     const handleClickDeleteAds = () => {
         deleteAdsById(currAds.id.toString(), getTokenFromLocalStorage())
             .then(() => {
@@ -68,7 +73,10 @@ export const Info: React.FC<AdsInfoProps> = ({
                 )
             ) : (
                 <div className="info__edit-buttons">
-                    <button className="info__edit-ads blue-button">
+                    <button
+                        onClick={handleClickEditAds}
+                        className="info__edit-ads blue-button"
+                    >
                         Редактировать
                     </button>
                     <button

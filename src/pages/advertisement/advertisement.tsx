@@ -9,11 +9,13 @@ import { getAdsById, getAllComments } from '../../api/ads';
 import { Ads, Comments } from '../../interface/global';
 import { CommentsWindow } from './components/comments/comments';
 import { Header } from '../../components/header/header';
+import { AdsSettingTextOnly } from '../../components/ads-setting/ads-setting-text-only';
 
 export const Advertisement = () => {
     const [currAds, setCurrAds] = useState<Ads | null>(null);
     const [isCommentsWindow, setIsCommetnsWindow] = useState<boolean>(false);
     const [comments, setComments] = useState<Comments[] | null>(null);
+    const [isAdsModal, setIsAdsModal] = useState<boolean>(false);
 
     const adsId = useParams().id;
 
@@ -44,6 +46,19 @@ export const Advertisement = () => {
         <div className="advertisement">
             <Header />
 
+            {isAdsModal && currAds && (
+                <AdsSettingTextOnly
+                    setIsAdsModal={setIsAdsModal}
+                    viewMode="edit"
+                    ads={{
+                        title: currAds.title,
+                        description: currAds.description,
+                        price: currAds.price,
+                        images: [],
+                    }}
+                />
+            )}
+
             {isCommentsWindow && currAds && comments && (
                 <CommentsWindow
                     sellerId={currAds.user_id}
@@ -60,6 +75,7 @@ export const Advertisement = () => {
                         currAds={currAds}
                         comments={comments}
                         setIsCommetnsWindow={setIsCommetnsWindow}
+                        setIsAdsModal={setIsAdsModal}
                     />
                     <Description description={currAds.description} />
                 </div>
