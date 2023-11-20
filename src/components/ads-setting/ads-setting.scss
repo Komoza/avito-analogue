@@ -127,9 +127,34 @@
         gap: 10px;
     }
 
+    &__img-wrap {
+        position: relative;
+    }
+
+    &__img-delete {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 5px;
+        right: 5px;
+
+        border: 1px solid #009ee4;
+        border-radius: 50%;
+        background: #009ee4;
+        transition: all 0.3s;
+
+        color: #fff;
+        font-weight: 700;
+
+        &:hover {
+            scale: 1.1;
+        }
+    }
+
     &__photo {
         width: 90px;
         height: 90px;
+        object-fit: cover;
 
         cursor: pointer;
 
@@ -202,4 +227,3 @@
 .--error-input {
     border: 1px solid rgb(196, 12, 12);
 }
-

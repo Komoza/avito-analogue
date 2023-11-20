@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { BackgorundDark } from '../background-dark/background-dark';
 import './ads-setting.scss';
 import { getTokenFromLocalStorage } from '../../utils/token';
-import { postAdsImage, postAdsText, updateAds } from '../../api/ads';
+import {
+    deleteAdsImage,
+    postAdsImage,
+    postAdsText,
+    updateAds,
+} from '../../api/ads';
 import { useNavigate } from 'react-router-dom';
 import { Ads, Image } from '../../interface/global';
 import { host } from '../../constant';
@@ -57,7 +62,13 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
     }, []);
 
     useEffect(() => {
-        const newArrImages = [...imagesState];
+        const newArrImages = [
+            '/image/add-photo.jpg',
+            '/image/add-photo.jpg',
+            '/image/add-photo.jpg',
+            '/image/add-photo.jpg',
+            '/image/add-photo.jpg',
+        ];
 
         ads.images.forEach((image, index) => {
             if (image) {
@@ -193,6 +204,21 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         }
     };
 
+    const handleClickDeleteImage = (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        imageUrl: string
+    ) => {
+        event.preventDefault();
+        console.log(imageUrl);
+        deleteAdsImage(getTokenFromLocalStorage(), imageUrl, ads.id)
+            .then((data) => {
+                if (setCurrAds) {
+                    setCurrAds(data);
+                }
+            })
+            .catch((error) => console.error(error));
+    };
+
     return (
         <div className="ads-setting">
             <BackgorundDark closeModal={setIsAdsModal} />
@@ -256,13 +282,30 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
                             />
                             {imagesState.map((image, index) => {
                                 return (
-                                    <img
+                                    <div
                                         key={index}
-                                        onClick={handleClickImage}
-                                        src={image}
-                                        alt=""
-                                        className="ads-set__photo"
-                                    />
+                                        className="ads-set__img-wrap"
+                                    >
+                                        {image !== '/image/add-photo.jpg' && (
+                                            <button
+                                                onClick={(event) =>
+                                                    handleClickDeleteImage(
+                                                        event,
+                                                        image
+                                                    )
+                                                }
+                                                className="ads-set__img-delete"
+                                            >
+                                                x
+                                            </button>
+                                        )}
+                                        <img
+                                            onClick={handleClickImage}
+                                            src={image}
+                                            alt=""
+                                            className="ads-set__photo"
+                                        />
+                                    </div>
                                 );
                             })}
                         </div>

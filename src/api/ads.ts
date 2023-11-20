@@ -231,3 +231,28 @@ export const postAdsImage = async (
         throw new Error('Неизвестная ошибка, попробуйте позже');
     });
 };
+
+export const deleteAdsImage = async (
+    token: Token,
+    imageUrl: string,
+    adsId: number
+): Promise<Ads> => {
+    url = `/ads/${adsId}/image?file_url=${imageUrl.replace(host + '/', '')}`;
+
+    return fetch(host + url, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+    }).then((responce) => {
+        if (responce.status === 200) {
+            return responce.json();
+        }
+
+        if (responce.status === 401) {
+            updateToken();
+            return deleteAdsImage(getTokenFromLocalStorage(), imageUrl, adsId);
+        }
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};
