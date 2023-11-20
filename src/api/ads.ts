@@ -205,3 +205,29 @@ export const postAdsText = async (
         throw new Error('Ошибка...');
     });
 };
+
+export const postAdsImage = async (
+    token: Token,
+    image: FormData,
+    adsId: number
+): Promise<Ads> => {
+    url = `/ads/${adsId}/image`;
+
+    return fetch(host + url, {
+        method: 'POST',
+        headers: {
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+        body: image,
+    }).then((responce) => {
+        if (responce.status === 201) {
+            return responce.json();
+        }
+
+        if (responce.status === 401) {
+            updateToken();
+            return postAdsImage(getTokenFromLocalStorage(), image, adsId);
+        }
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};

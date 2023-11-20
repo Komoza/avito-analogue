@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { BackgorundDark } from '../background-dark/background-dark';
 import './ads-setting.scss';
 import { getTokenFromLocalStorage } from '../../utils/token';
-import { postAdsText, updateAds } from '../../api/ads';
+import { postAdsImage, postAdsText, updateAds } from '../../api/ads';
 import { useNavigate } from 'react-router-dom';
 import { Ads, Image } from '../../interface/global';
+import { host } from '../../constant';
 
 interface AdsSettingProps {
     setIsAdsModal: (value: boolean) => void;
@@ -33,6 +34,15 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
     const refName = useRef<HTMLInputElement | null>(null);
     const refDescription = useRef<HTMLTextAreaElement | null>(null);
     const refPrice = useRef<HTMLInputElement | null>(null);
+    const refImage = useRef<HTMLInputElement | null>(null);
+
+    const [imagesState, setImagesState] = useState<string[]>([
+        '/image/add-photo.jpg',
+        '/image/add-photo.jpg',
+        '/image/add-photo.jpg',
+        '/image/add-photo.jpg',
+        '/image/add-photo.jpg',
+    ]);
 
     const [adsState, setAdsState] = useState(ads);
 
@@ -45,6 +55,21 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
             document.body.style.overflow = 'unset';
         };
     }, []);
+
+    useEffect(() => {
+        const newArrImages = [...imagesState];
+
+        ads.images.forEach((image, index) => {
+            if (image) {
+                if (!isNaN(image.id)) {
+                    newArrImages[index] = `${host}/${image.url}`;
+                }
+            }
+        });
+
+        setImagesState(newArrImages);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ads]);
 
     useEffect(() => {}, []);
 
@@ -108,6 +133,66 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
             .catch((error) => console.error(error));
     };
 
+    useEffect(() => {
+        changeButton();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [adsState]);
+
+    const changeButton = () => {
+        for (const key in adsState) {
+            if (key === 'price') {
+                if (Number(adsState[key]) !== ads[key]) {
+                    setIsNotActiveButtonEdit(false);
+                    return;
+                }
+            } else if (
+                adsState[
+                    key as keyof {
+                        title: string;
+                        description: string;
+                        price: number | null;
+                        images: Image[];
+                        id: number;
+                    }
+                ] !==
+                ads[
+                    key as keyof {
+                        title: string;
+                        description: string;
+                        price: number | null;
+                        images: Image[];
+                        id: number;
+                    }
+                ]
+            ) {
+                setIsNotActiveButtonEdit(false);
+                return;
+            }
+        }
+        setIsNotActiveButtonEdit(true);
+        return;
+    };
+
+    const handleClickImage = () => {
+        refImage.current?.click();
+    };
+
+    const handlePostImage = () => {
+        if (refImage.current?.files) {
+            const file = refImage.current.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            postAdsImage(getTokenFromLocalStorage(), formData, ads.id)
+                .then((data) => {
+                    if (setCurrAds) {
+                        setCurrAds(data);
+                    }
+                })
+                .catch((error) => console.error(error));
+        }
+    };
+
     return (
         <div className="ads-setting">
             <BackgorundDark closeModal={setIsAdsModal} />
@@ -150,6 +235,39 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
                     />
                 </div>
 
+                {viewMode === 'edit' && (
+                    <div className="ads-set__photos-wrap">
+                        <div className="ads-set__photos-text-wrap">
+                            <p className="ads-set__photos-text">
+                                Фотографии товара
+                            </p>
+                            <p className="ads-set__photos-description">
+                                не более 5 фотографий
+                            </p>
+                        </div>
+
+                        <div className="ads-set__photo-wrap">
+                            <input
+                                ref={refImage}
+                                onChange={handlePostImage}
+                                className="ads-set__photo--input"
+                                type="file"
+                                accept="image/png, image/jpeg"
+                            />
+                            {imagesState.map((image, index) => {
+                                return (
+                                    <img
+                                        key={index}
+                                        onClick={handleClickImage}
+                                        src={image}
+                                        alt=""
+                                        className="ads-set__photo"
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
                 <div className="ads-set__price-wrap">
                     <div className="ads-set__price-text">Цена</div>
                     <div className="ads-set__price-box">

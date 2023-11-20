@@ -55,7 +55,7 @@ export const Advertisement = () => {
                         title: currAds.title,
                         description: currAds.description,
                         price: currAds.price,
-                        images: [],
+                        images: [...currAds.images],
                     }}
                     setCurrAds={setCurrAds}
                 />
