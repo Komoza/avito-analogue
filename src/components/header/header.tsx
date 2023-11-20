@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { Auth } from '../auth/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserId } from '../../store/actions/creators/creators';
-import { AppState } from '../../store/actions/types/types';
 import { removeTokenFromLocalStorage } from '../../utils/token';
 import { AdsSettingTextOnly } from '../ads-setting/ads-setting-text-only';
+import { RootState } from '../../store/actions/types/types';
 
 const emptyAds = {
     id: 0,
@@ -19,7 +19,9 @@ const emptyAds = {
 export const Header = () => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
     const [isAdsModal, setIsAdsModal] = useState<boolean>(false);
-    const userIdState = useSelector((state: AppState) => state.userId);
+    const userIdState = useSelector(
+        (state: RootState) => state.otherState.userId
+    );
     const dispatch = useDispatch();
 
     const handleClickLogin = () => {

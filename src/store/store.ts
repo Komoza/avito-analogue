@@ -1,6 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { advertisementApi } from '../services/advertisment';
 import appReducer from './redusers/app-reduser';
 
-const store = configureStore({ reducer: appReducer });
+const rootReducer = combineReducers({
+    otherState: appReducer,
+    [advertisementApi.reducerPath]: advertisementApi.reducer,
+});
 
-export default store;
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(advertisementApi.middleware),
+});

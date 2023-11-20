@@ -7,7 +7,7 @@ import { correctMessage, formatDate } from '../../../../utils/advertisement';
 import { host } from '../../../../constant';
 import { CallingButton } from '../../../../components/calling-button/calling-button';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../../../store/actions/types/types';
+import { RootState } from '../../../../store/actions/types/types';
 import { getTokenFromLocalStorage } from '../../../../utils/token';
 import { deleteAdsById } from '../../../../api/ads';
 
@@ -23,7 +23,9 @@ export const Info: React.FC<AdsInfoProps> = ({
     setIsCommetnsWindow,
     setIsAdsModal,
 }) => {
-    const userIdState = useSelector((state: AppState) => state.userId);
+    const userIdState = useSelector(
+        (state: RootState) => state.otherState.userId
+    );
     const navigate = useNavigate();
 
     const handleClickComments = () => {

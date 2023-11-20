@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { User } from '../../interface/global';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../store/actions/types/types';
+import { RootState } from '../../store/actions/types/types';
 import { getAllUsers, getUser } from '../../api/user';
 import { getTokenFromLocalStorage } from '../../utils/token';
 import { Header } from '../../components/header/header';
@@ -16,7 +16,9 @@ import { Header } from '../../components/header/header';
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
     const [pageMode, setPageMode] = useState<string>('guest'); // guest, not-logged, my-profile, error, not-found-user
-    const userIdState = useSelector((state: AppState) => state.userId);
+    const userIdState = useSelector(
+        (state: RootState) => state.otherState.userId
+    );
 
     const userID = useParams().id;
 

@@ -1,5 +1,12 @@
+import { advertisementApi } from '../../../services/advertisment';
+
 export interface AppState {
     userId: number | null;
+}
+
+export interface RootState {
+    otherState: AppState;
+    [advertisementApi.reducerPath]: ReturnType<typeof advertisementApi.reducer>;
 }
 
 export interface SetUserId {

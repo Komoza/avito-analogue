@@ -7,7 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ru } from 'date-fns/locale';
 import { format, parseISO } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../../../store/actions/types/types';
+import { RootState } from '../../../../store/actions/types/types';
 import { postComments } from '../../../../api/ads';
 import { getTokenFromLocalStorage } from '../../../../utils/token';
 
@@ -25,7 +25,9 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
     setComments,
 }) => {
     const [isNotActiveButton, setIsNotActiveButton] = useState<boolean>(true);
-    const userIdState = useSelector((state: AppState) => state.userId);
+    const userIdState = useSelector(
+        (state: RootState) => state.otherState.userId
+    );
     const asdId = useParams();
 
     const refTextarea = useRef<HTMLTextAreaElement | null>(null);
