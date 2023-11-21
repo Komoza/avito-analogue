@@ -1,0 +1,137 @@
+.skeleton-advertisement {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 34px;
+
+    &__image {
+        width: 270px;
+        height: 270px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+
+    &__title {
+        margin-top: 10px;
+        width: 200px;
+        height: 26px;
+        background-color: #d2d0d0;
+        border-radius: 6px;
+        animation: skeleton-loading 1s linear infinite alternate;
+    }
+
+    &__price {
+        width: 100px;
+        height: 33px;
+        background-color: #d2d0d0;
+        border-radius: 6px;
+        animation: skeleton-loading 1s linear infinite alternate;
+    }
+}
+
+.skeleton-advertisement-page {
+    display: flex;
+    gap: 59px;
+
+    &__img-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    &__big-image {
+        width: 480px;
+        height: 480px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+
+    &__small-img-wrap {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__small-image {
+        width: 88px;
+        height: 88px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+
+    &__text-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__name {
+        width: 400px;
+        height: 45px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+
+    &__date {
+        width: 300px;
+        height: 20px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+
+    &__price {
+        width: 100px;
+        height: 40px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+}
+
+.profile-page-skeleton {
+    display: flex;
+    gap: 50px;
+
+    &__image {
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+
+    &__text-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__name {
+        width: 300px;
+        height: 40px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+
+    &__city {
+        width: 100px;
+        height: 30px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+
+    &__tel {
+        width: 100px;
+        height: 30px;
+        background-color: #d2d0d0;
+        animation: skeleton-loading 1s linear infinite alternate;
+        border-radius: 6px;
+    }
+}

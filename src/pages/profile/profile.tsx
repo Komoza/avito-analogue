@@ -12,6 +12,7 @@ import { RootState } from '../../store/actions/types/types';
 import { getAllUsers, getUser } from '../../api/user';
 import { getTokenFromLocalStorage } from '../../utils/token';
 import { Header } from '../../components/header/header';
+import { ProfilePageSkeleton } from '../../components/skeleton/profile-page';
 
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
@@ -32,11 +33,7 @@ export const Profile = () => {
                                 setUserProfile(data);
                                 setPageMode('my-profile');
                             })
-                            .catch((error) => {
-                                console.error(
-                                    'Error fetching workout data:',
-                                    error
-                                );
+                            .catch(() => {
                                 setPageMode('error');
                             });
                     } else {
@@ -62,11 +59,7 @@ export const Profile = () => {
                                 setUserProfile(findUser(data));
                             }
                         })
-                        .catch((error) => {
-                            console.error(
-                                'Error fetching workout data:',
-                                error
-                            );
+                        .catch(() => {
                             setPageMode('error');
                         });
                 }
@@ -77,10 +70,11 @@ export const Profile = () => {
     }, [userID, userIdState]);
 
     return (
-        <div className="profile__wrapper">
+        <div className="profile-wrapper">
             <Header />
             <BackToMain />
 
+            {!userProfile && pageMode !== 'error' && <ProfilePageSkeleton />}
             {pageMode === 'not-logged' && (
                 <div className="message-page">
                     <p className="message-page__text">
@@ -118,6 +112,12 @@ export const Profile = () => {
                         titleText={'Товары продавца'}
                     />
                 </>
+            )}
+
+            {pageMode === 'error' && (
+                <p className="profile-wrapper__error">
+                    Не удалось загрузить страницу
+                </p>
             )}
         </div>
     );

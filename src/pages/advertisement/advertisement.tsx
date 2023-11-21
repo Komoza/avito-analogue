@@ -11,6 +11,7 @@ import { Header } from '../../components/header/header';
 import { AdsSettingTextOnly } from '../../components/ads-setting/ads-setting-text-only';
 import { useGetAdsByIdQuery } from '../../services/advertisment';
 import { getAllComments } from '../../api/comments';
+import { AdvertisementPageSkeleton } from '../../components/skeleton/advertisement-page';
 
 export const Advertisement = () => {
     const [currAds, setCurrAds] = useState<Ads | null>(null);
@@ -37,6 +38,8 @@ export const Advertisement = () => {
     return (
         <div className="advertisement">
             <Header />
+            <BackToMain />
+
             {currAds && (
                 <>
                     {isAdsModal && (
@@ -62,7 +65,6 @@ export const Advertisement = () => {
                             setIsCommetnsWindow={setIsCommetnsWindow}
                         />
                     )}
-                    <BackToMain />
 
                     <div className="advertisement-info">
                         <Photos images={currAds.images} />
@@ -77,8 +79,10 @@ export const Advertisement = () => {
                 </>
             )}
 
-            {isLoading && <h1>Loading...</h1>}
-            {error && <h1>Error...</h1>}
+            {isLoading && <AdvertisementPageSkeleton />}
+            {error && (
+                <p className="advertisement__error">Объявление не найдено</p>
+            )}
         </div>
     );
 };

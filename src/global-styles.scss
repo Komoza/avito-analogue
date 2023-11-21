@@ -90,3 +90,12 @@ a {
         bottom: 172px;
     }
 }
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #d2d0d0;;
+    }
+    100% {
+        background-color: #a9a7a7;;
+    }
+}

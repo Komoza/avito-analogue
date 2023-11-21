@@ -7,6 +7,7 @@ import { Header } from '../../components/header/header';
 import { useGetAllAdsQuery } from '../../services/advertisment';
 import { useEffect, useState } from 'react';
 import { Ads } from '../../interface/global';
+import { AdvertisementSkeleton } from '../../components/skeleton/advertisement-card';
 
 export const Main = () => {
     const { data, error, isLoading } = useGetAllAdsQuery();
@@ -35,9 +36,20 @@ export const Main = () => {
                 </div>
             )}
 
-            {isLoading && <h1>Loading...</h1>}
+            {isLoading && (
+                <div className="advertisements">
+                    <AdvertisementSkeleton />
+                    <AdvertisementSkeleton />
+                    <AdvertisementSkeleton />
+                    <AdvertisementSkeleton />
+                    <AdvertisementSkeleton />
+                    <AdvertisementSkeleton />
+                    <AdvertisementSkeleton />
+                    <AdvertisementSkeleton />
+                </div>
+            )}
 
-            {error && <h1>Error...</h1>}
+            {error && <p className="main__error">Объявления не найдены</p>}
         </div>
     );
 };

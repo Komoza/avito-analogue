@@ -1,3 +1,9 @@
 .main {
     margin-bottom: 37px;
+
+    &__error {
+        margin-top: 40px;
+        font-size: 36px;
+        line-height: 40px;
+    }
 }

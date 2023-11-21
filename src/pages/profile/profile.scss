@@ -1,5 +1,11 @@
-.profile__wrapper {
+.profile-wrapper {
     padding-bottom: 79px;
+
+    &__error {
+        margin-top: 40px;
+        font-size: 36px;
+        line-height: 40px;
+    }
 }
 
 .message-page {

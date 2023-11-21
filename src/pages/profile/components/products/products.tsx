@@ -4,6 +4,7 @@ import './products.scss';
 import { useEffect, useState } from 'react';
 import { Ads } from '../../../../interface/global';
 import { useGetAllAdsByUserIdQuery } from '../../../../services/advertisment';
+import { AdvertisementSkeleton } from '../../../../components/skeleton/advertisement-card';
 
 interface ProductsProps {
     userId: number;
@@ -37,8 +38,19 @@ export const Products: React.FC<ProductsProps> = ({ userId, titleText }) => {
                         })}
                     </div>
                 )}
-                {isLoading && <h1>Loading...</h1>}
-                {error && <h1>Error...</h1>}
+                {isLoading && (
+                    <div className="advertisements">
+                        <AdvertisementSkeleton />
+                        <AdvertisementSkeleton />
+                        <AdvertisementSkeleton />
+                        <AdvertisementSkeleton />
+                        <AdvertisementSkeleton />
+                        <AdvertisementSkeleton />
+                        <AdvertisementSkeleton />
+                        <AdvertisementSkeleton />
+                    </div>
+                )}
+                {error && <p className="my-products__error">Объявления не найдены</p>}
             </div>
         </div>
     );
