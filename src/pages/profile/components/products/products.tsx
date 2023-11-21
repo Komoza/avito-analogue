@@ -3,7 +3,7 @@ import { Advertisement } from '../../../../components/advertisement/advertisemen
 import './products.scss';
 import { useEffect, useState } from 'react';
 import { Ads } from '../../../../interface/global';
-import { getAllAds } from '../../../../api/ads';
+import { useGetAllAdsByIdQuery } from '../../../../services/advertisment';
 
 interface ProductsProps {
     userId: number;
@@ -11,20 +11,14 @@ interface ProductsProps {
 }
 
 export const Products: React.FC<ProductsProps> = ({ userId, titleText }) => {
+    const { data, error, isLoading } = useGetAllAdsByIdQuery(userId);
+
     const [arrAds, setArrAds] = useState<Ads[] | null>(null);
     useEffect(() => {
-        const fetchData = () => {
-            getAllAds(userId)
-                .then((data) => {
-                    setArrAds(data);
-                })
-                .catch((error) => {
-                    console.error('Error fetching workout data:', error);
-                });
-        };
-
-        fetchData();
-    }, [userId]);
+        if (data) {
+            setArrAds(data);
+        }
+    }, [data]);
 
     return (
         <div className="my-products">
@@ -32,7 +26,7 @@ export const Products: React.FC<ProductsProps> = ({ userId, titleText }) => {
                 {arrAds?.length ? titleText : 'Пока нет объявлений'}
             </h2>
             <div className="advertisements">
-                {arrAds ? (
+                {arrAds && (
                     <div className="advertisements">
                         {arrAds.map((ads, index) => {
                             return (
@@ -42,9 +36,9 @@ export const Products: React.FC<ProductsProps> = ({ userId, titleText }) => {
                             );
                         })}
                     </div>
-                ) : (
-                    <h1>Loading...</h1>
                 )}
+                {isLoading && <h1>Loading...</h1>}
+                {error && <h1>Error...</h1>}
             </div>
         </div>
     );

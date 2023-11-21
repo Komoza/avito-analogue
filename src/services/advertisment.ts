@@ -38,6 +38,11 @@ export const advertisementApi = createApi({
             providesTags: [DATA_TAG],
         }),
 
+        getAllAdsById: builder.query<Ads[], number>({
+            query: (userId) => `/ads?user_id=${userId}&sorting=new`,
+            providesTags: [DATA_TAG],
+        }),
+
         postAds: builder.mutation<Ads, PostAdsProps>({
             query: (postAdsProps) => ({
                 url: '/adstext',
@@ -84,6 +89,7 @@ export const advertisementApi = createApi({
 
 export const {
     useGetAllAdsQuery,
+    useGetAllAdsByIdQuery,
     usePostAdsMutation,
     useDeleteAdsByIdMutation,
     useUpdateAdsByIdMutation,

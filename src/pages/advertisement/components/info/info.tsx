@@ -50,7 +50,7 @@ export const Info: React.FC<AdsInfoProps> = ({
 
     useEffect(() => {
         if (statusDeleteAds === 'fulfilled') {
-            navigate('/');
+            navigate('/profile/me');
             setIsAdsModal(false);
         }
 
