@@ -5,14 +5,23 @@ import { Title } from './components/title/titile';
 import './main.scss';
 import { Header } from '../../components/header/header';
 import { useGetAllAdsQuery } from '../../services/advertisment';
+import { useEffect, useState } from 'react';
+import { Ads } from '../../interface/global';
 
 export const Main = () => {
-    const { data: arrAds, error, isLoading } = useGetAllAdsQuery();
+    const { data, error, isLoading } = useGetAllAdsQuery();
+    const [arrAds, setArrAds] = useState<Ads[] | null>(null);
+
+    useEffect(() => {
+        if (data) {
+            setArrAds(data);
+        }
+    }, [data]);
 
     return (
         <div className="main">
             <Header />
-            <SearchBar />
+            {data && <SearchBar setArrAds={setArrAds} dataAds={data} />}
             <Title />
             {arrAds && (
                 <div className="advertisements">
