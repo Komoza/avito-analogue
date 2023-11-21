@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { BackgorundDark } from '../background-dark/background-dark';
 import './ads-setting.scss';
 import { getTokenFromLocalStorage, updateToken } from '../../utils/token';
-import { deleteAdsImage, postAdsImage } from '../../api/ads';
 import { useNavigate } from 'react-router-dom';
 import { Ads, Image } from '../../interface/global';
 import { host } from '../../constant';
 import {
+    useDeleteAdsImageMutation,
+    usePostAdsImageMutation,
     usePostAdsMutation,
     useUpdateAdsByIdMutation,
 } from '../../services/advertisment';
@@ -45,6 +46,24 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         updateAds,
         { data: dataUpdateAds, status: statusUpdateAds, error: errorUpdateAds },
     ] = useUpdateAdsByIdMutation();
+
+    const [
+        postAdsImage,
+        {
+            data: dataPostAdsImage,
+            status: statusPostAdsImage,
+            error: errorPostAdsImage,
+        },
+    ] = usePostAdsImageMutation();
+
+    const [
+        deleteAdsImage,
+        {
+            data: dataDeleteAdsImage,
+            status: statusDeleteAdsImage,
+            error: errorDeleteAdsImage,
+        },
+    ] = useDeleteAdsImageMutation();
 
     const refName = useRef<HTMLInputElement | null>(null);
     const refDescription = useRef<HTMLTextAreaElement | null>(null);
@@ -118,6 +137,44 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [statusUpdateAds]);
+
+    useEffect(() => {
+        if (
+            statusPostAdsImage === 'fulfilled' &&
+            dataPostAdsImage &&
+            setCurrAds
+        ) {
+            setCurrAds(dataPostAdsImage);
+        }
+
+        if (
+            isFetchBaseQueryError(errorPostAdsImage) &&
+            errorPostAdsImage.status === 401
+        ) {
+            updateToken();
+            handlePostImage();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [statusPostAdsImage, errorPostAdsImage]);
+
+    useEffect(() => {
+        if (
+            statusDeleteAdsImage === 'fulfilled' &&
+            dataDeleteAdsImage &&
+            setCurrAds
+        ) {
+            setCurrAds(dataDeleteAdsImage);
+        }
+
+        if (
+            isFetchBaseQueryError(errorDeleteAdsImage) &&
+            errorDeleteAdsImage.status === 401
+        ) {
+            updateToken();
+            // придумать как вызвать удаление еще раз
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [statusDeleteAdsImage, errorDeleteAdsImage]);
 
     useEffect(() => {
         const newArrImages = [
@@ -234,13 +291,11 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
             const formData = new FormData();
             formData.append('file', file);
 
-            postAdsImage(getTokenFromLocalStorage(), formData, ads.id)
-                .then((data) => {
-                    if (setCurrAds) {
-                        setCurrAds(data);
-                    }
-                })
-                .catch((error) => console.error(error));
+            postAdsImage({
+                token: getTokenFromLocalStorage(),
+                image: formData,
+                adsId: ads.id,
+            });
         }
     };
 
@@ -249,13 +304,11 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         imageUrl: string
     ) => {
         event.preventDefault();
-        deleteAdsImage(getTokenFromLocalStorage(), imageUrl, ads.id)
-            .then((data) => {
-                if (setCurrAds) {
-                    setCurrAds(data);
-                }
-            })
-            .catch((error) => console.error(error));
+        deleteAdsImage({
+            token: getTokenFromLocalStorage(),
+            imageUrl: imageUrl,
+            adsId: ads.id,
+        });
     };
 
     return (

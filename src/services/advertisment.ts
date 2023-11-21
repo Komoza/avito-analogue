@@ -27,6 +27,18 @@ interface UpdateAdsProps {
     token: Token;
 }
 
+interface PostAdsImageProps {
+    token: Token;
+    image: FormData;
+    adsId: number;
+}
+
+interface DeleteAdsImageProps {
+    token: Token;
+    imageUrl: string;
+    adsId: number;
+}
+
 export const advertisementApi = createApi({
     reducerPath: 'adsApi',
     baseQuery: fetchBaseQuery({
@@ -89,6 +101,32 @@ export const advertisementApi = createApi({
             }),
             invalidatesTags: [DATA_TAG],
         }),
+
+        postAdsImage: builder.mutation<Ads, PostAdsImageProps>({
+            query: ({ token, image, adsId }) => ({
+                url: `/ads/${adsId}/image`,
+                method: 'POST',
+                headers: {
+                    Authorization: `${token.token_type} ${token.access_token}`,
+                },
+                body: image,
+            }),
+            invalidatesTags: [DATA_TAG],
+        }),
+
+        deleteAdsImage: builder.mutation<Ads, DeleteAdsImageProps>({
+            query: ({ token, imageUrl, adsId }) => ({
+                url: `/ads/${adsId}/image?file_url=${imageUrl.replace(
+                    host + '/',
+                    ''
+                )}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `${token.token_type} ${token.access_token}`,
+                },
+            }),
+            invalidatesTags: [DATA_TAG],
+        }),
     }),
 });
 
@@ -99,4 +137,6 @@ export const {
     usePostAdsMutation,
     useDeleteAdsByIdMutation,
     useUpdateAdsByIdMutation,
+    usePostAdsImageMutation,
+    useDeleteAdsImageMutation,
 } = advertisementApi;
