@@ -10,6 +10,7 @@ import { CommentsWindow } from './components/comments/comments';
 import { Header } from '../../components/header/header';
 import { AdsSettingTextOnly } from '../../components/ads-setting/ads-setting-text-only';
 import { useGetAdsByIdQuery } from '../../services/advertisment';
+import { getAllComments } from '../../api/ads';
 
 export const Advertisement = () => {
     const [currAds, setCurrAds] = useState<Ads | null>(null);
@@ -23,6 +24,13 @@ export const Advertisement = () => {
     useEffect(() => {
         if (data) {
             setCurrAds(data);
+            getAllComments(data.id)
+                .then((dataComments) => {
+                    setComments(dataComments);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         }
     }, [data]);
 
