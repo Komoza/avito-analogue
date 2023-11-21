@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { BackgorundDark } from '../background-dark/background-dark';
 import './ads-setting.scss';
-import { getTokenFromLocalStorage } from '../../utils/token';
+import { getTokenFromLocalStorage, updateToken } from '../../utils/token';
 import {
     deleteAdsImage,
     postAdsImage,
-    postAdsText,
+    // postAdsText,
     updateAds,
 } from '../../api/ads';
 import { useNavigate } from 'react-router-dom';
 import { Ads, Image } from '../../interface/global';
 import { host } from '../../constant';
+import { usePostAdsMutation } from '../../services/advertisment';
+import { isFetchBaseQueryError } from '../../helper';
 
 interface AdsSettingProps {
     setIsAdsModal: (value: boolean) => void;
@@ -35,6 +37,11 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         useState<boolean>(true);
     const [isNotActiveButtonEdit, setIsNotActiveButtonEdit] =
         useState<boolean>(true);
+
+    const [
+        postAdsText,
+        { data: dataPostAds, status: statusPostAds, error: errorPostAds },
+    ] = usePostAdsMutation();
 
     const refName = useRef<HTMLInputElement | null>(null);
     const refDescription = useRef<HTMLTextAreaElement | null>(null);
@@ -62,6 +69,35 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
     }, []);
 
     useEffect(() => {
+        if (statusPostAds === 'fulfilled' && dataPostAds) {
+            navigate(`/ads/${dataPostAds.id}`);
+            setIsAdsModal(false);
+        }
+
+        if (
+            isFetchBaseQueryError(errorPostAds) &&
+            errorPostAds.status === 401
+        ) {
+            updateToken();
+            if (refName.current && refDescription.current && refPrice.current) {
+                if (refName.current.value) {
+                    postAdsText({
+                        token: getTokenFromLocalStorage(),
+                        ads: {
+                            title: refName.current.value,
+                            description: refDescription.current.value,
+                            price: refPrice.current.value
+                                ? parseInt(refPrice.current.value)
+                                : 0,
+                        },
+                    });
+                }
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [statusPostAds, errorPostAds]);
+
+    useEffect(() => {
         const newArrImages = [
             '/image/add-photo.jpg',
             '/image/add-photo.jpg',
@@ -79,10 +115,7 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         });
 
         setImagesState(newArrImages);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ads]);
-
-    useEffect(() => {}, []);
 
     const updateAdsState = (value: string, field: string) => {
         setAdsState({ ...adsState, [field]: value });
@@ -95,23 +128,16 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
 
         if (refName.current && refDescription.current && refPrice.current) {
             if (refName.current.value) {
-                postAdsText(
-                    {
+                postAdsText({
+                    token: getTokenFromLocalStorage(),
+                    ads: {
                         title: refName.current.value,
                         description: refDescription.current.value,
                         price: refPrice.current.value
                             ? parseInt(refPrice.current.value)
                             : 0,
                     },
-                    getTokenFromLocalStorage()
-                )
-                    .then((data) => {
-                        navigate(`/ads/${data.id}`);
-                        setIsAdsModal(false);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
+                });
             } else {
                 refName.current.classList.add('--error-input');
             }

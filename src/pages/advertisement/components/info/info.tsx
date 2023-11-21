@@ -8,8 +8,10 @@ import { host } from '../../../../constant';
 import { CallingButton } from '../../../../components/calling-button/calling-button';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store/actions/types/types';
-import { getTokenFromLocalStorage } from '../../../../utils/token';
-import { deleteAdsById } from '../../../../api/ads';
+import { getTokenFromLocalStorage, updateToken } from '../../../../utils/token';
+import { useDeleteAdsByIdMutation } from '../../../../services/advertisment';
+import { useEffect } from 'react';
+import { isFetchBaseQueryError } from '../../../../helper';
 
 interface AdsInfoProps {
     currAds: Ads;
@@ -26,6 +28,10 @@ export const Info: React.FC<AdsInfoProps> = ({
     const userIdState = useSelector(
         (state: RootState) => state.otherState.userId
     );
+
+    const [deleteAds, { status: statusDeleteAds, error: errorDeleteAds }] =
+        useDeleteAdsByIdMutation();
+
     const navigate = useNavigate();
 
     const handleClickComments = () => {
@@ -36,12 +42,30 @@ export const Info: React.FC<AdsInfoProps> = ({
         setIsAdsModal(true);
     };
     const handleClickDeleteAds = () => {
-        deleteAdsById(currAds.id.toString(), getTokenFromLocalStorage())
-            .then(() => {
-                navigate('/profile/me');
-            })
-            .catch((error) => console.error(error));
+        deleteAds({
+            id: currAds.id.toString(),
+            token: getTokenFromLocalStorage(),
+        });
     };
+
+    useEffect(() => {
+        if (statusDeleteAds === 'fulfilled') {
+            navigate('/');
+            setIsAdsModal(false);
+        }
+
+        if (
+            isFetchBaseQueryError(errorDeleteAds) &&
+            errorDeleteAds.status === 401
+        ) {
+            updateToken();
+            deleteAds({
+                id: currAds.id.toString(),
+                token: getTokenFromLocalStorage(),
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [statusDeleteAds]);
     return (
         <div className="info">
             <p className="info__name">{currAds.title}</p>
