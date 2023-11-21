@@ -3,7 +3,7 @@ import { Advertisement } from '../../../../components/advertisement/advertisemen
 import './products.scss';
 import { useEffect, useState } from 'react';
 import { Ads } from '../../../../interface/global';
-import { useGetAllAdsByIdQuery } from '../../../../services/advertisment';
+import { useGetAllAdsByUserIdQuery } from '../../../../services/advertisment';
 
 interface ProductsProps {
     userId: number;
@@ -11,7 +11,7 @@ interface ProductsProps {
 }
 
 export const Products: React.FC<ProductsProps> = ({ userId, titleText }) => {
-    const { data, error, isLoading } = useGetAllAdsByIdQuery(userId);
+    const { data, error, isLoading } = useGetAllAdsByUserIdQuery(userId);
 
     const [arrAds, setArrAds] = useState<Ads[] | null>(null);
     useEffect(() => {
