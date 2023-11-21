@@ -1,5 +1,5 @@
 import './photos.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Swiper
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
@@ -18,7 +18,7 @@ interface PhotosProps {
 export const Photos: React.FC<PhotosProps> = ({ images }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
     const [indexActiveThums, setIndexActiveThumbs] = useState<number>(0);
-
+    const [imageState, setIsImageState] = useState<Image[]>([]);
     const handleClickSlide = (index: number) => {
         if (thumbsSwiper) {
             const slidesPerView = thumbsSwiper.params.slidesPerView;
@@ -31,13 +31,19 @@ export const Photos: React.FC<PhotosProps> = ({ images }) => {
         }
     };
 
-    if (!images.length) {
-        images.push({
-            id: NaN,
-            url: '/image/no-image.png',
-            ad_id: NaN,
-        });
-    }
+    useEffect(() => {
+        if (!images.length) {
+            setIsImageState([
+                {
+                    id: NaN,
+                    url: '/image/no-image.png',
+                    ad_id: NaN,
+                },
+            ]);
+        } else {
+            setIsImageState([...images]);
+        }
+    }, [images]);
 
     return (
         <div className="photos">
@@ -52,7 +58,7 @@ export const Photos: React.FC<PhotosProps> = ({ images }) => {
                 className="photos__main-slide"
                 modules={[FreeMode, Navigation, Thumbs]}
             >
-                {images.map((image, index) => {
+                {imageState.map((image, index) => {
                     return (
                         <SwiperSlide key={index}>
                             <img
@@ -81,7 +87,7 @@ export const Photos: React.FC<PhotosProps> = ({ images }) => {
                     watchSlidesProgress={true}
                     modules={[FreeMode, Navigation, Thumbs]}
                 >
-                    {images.map((image, index) => {
+                    {imageState.map((image, index) => {
                         return (
                             <SwiperSlide key={index}>
                                 <img

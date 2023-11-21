@@ -17,6 +17,16 @@ interface PostAdsProps {
     };
 }
 
+interface UpdateAdsProps {
+    ads: {
+        id: number;
+        title: string;
+        description: string;
+        price: number | null;
+    };
+    token: Token;
+}
+
 export const advertisementApi = createApi({
     reducerPath: 'adsApi',
     baseQuery: fetchBaseQuery({
@@ -52,6 +62,23 @@ export const advertisementApi = createApi({
             }),
             invalidatesTags: [DATA_TAG],
         }),
+
+        updateAdsById: builder.mutation<Ads, UpdateAdsProps>({
+            query: ({ ads, token }) => ({
+                url: `/ads/${ads.id}`,
+                method: 'PATCH',
+                headers: {
+                    Authorization: `${token.token_type} ${token.access_token}`,
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: ads.title,
+                    description: ads.description,
+                    price: ads.price,
+                }),
+            }),
+            invalidatesTags: [DATA_TAG],
+        }),
     }),
 });
 
@@ -59,4 +86,5 @@ export const {
     useGetAllAdsQuery,
     usePostAdsMutation,
     useDeleteAdsByIdMutation,
+    useUpdateAdsByIdMutation,
 } = advertisementApi;

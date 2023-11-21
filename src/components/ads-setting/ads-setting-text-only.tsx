@@ -2,16 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { BackgorundDark } from '../background-dark/background-dark';
 import './ads-setting.scss';
 import { getTokenFromLocalStorage, updateToken } from '../../utils/token';
-import {
-    deleteAdsImage,
-    postAdsImage,
-    // postAdsText,
-    updateAds,
-} from '../../api/ads';
+import { deleteAdsImage, postAdsImage } from '../../api/ads';
 import { useNavigate } from 'react-router-dom';
 import { Ads, Image } from '../../interface/global';
 import { host } from '../../constant';
-import { usePostAdsMutation } from '../../services/advertisment';
+import {
+    usePostAdsMutation,
+    useUpdateAdsByIdMutation,
+} from '../../services/advertisment';
 import { isFetchBaseQueryError } from '../../helper';
 
 interface AdsSettingProps {
@@ -42,6 +40,11 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         postAdsText,
         { data: dataPostAds, status: statusPostAds, error: errorPostAds },
     ] = usePostAdsMutation();
+
+    const [
+        updateAds,
+        { data: dataUpdateAds, status: statusUpdateAds, error: errorUpdateAds },
+    ] = useUpdateAdsByIdMutation();
 
     const refName = useRef<HTMLInputElement | null>(null);
     const refDescription = useRef<HTMLTextAreaElement | null>(null);
@@ -96,6 +99,25 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [statusPostAds, errorPostAds]);
+
+    useEffect(() => {
+        if (statusUpdateAds === 'fulfilled' && dataUpdateAds && setCurrAds) {
+            setCurrAds(dataUpdateAds);
+            setIsAdsModal(false);
+        }
+
+        if (
+            isFetchBaseQueryError(errorUpdateAds) &&
+            errorUpdateAds.status === 401
+        ) {
+            updateToken();
+            updateAds({
+                ads: { ...adsState },
+                token: getTokenFromLocalStorage(),
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [statusUpdateAds]);
 
     useEffect(() => {
         const newArrImages = [
@@ -159,15 +181,7 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         event.preventDefault();
-        setIsNotActiveButtonEdit(false);
-        updateAds({ ...adsState }, getTokenFromLocalStorage())
-            .then((data) => {
-                if (setCurrAds) {
-                    setCurrAds(data);
-                    setIsAdsModal(false);
-                }
-            })
-            .catch((error) => console.error(error));
+        updateAds({ ads: { ...adsState }, token: getTokenFromLocalStorage() });
     };
 
     useEffect(() => {
@@ -235,7 +249,6 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         imageUrl: string
     ) => {
         event.preventDefault();
-        console.log(imageUrl);
         deleteAdsImage(getTokenFromLocalStorage(), imageUrl, ads.id)
             .then((data) => {
                 if (setCurrAds) {

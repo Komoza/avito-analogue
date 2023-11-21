@@ -10,11 +10,7 @@ interface SearchBarProps {
 export const SearchBar: React.FC<SearchBarProps> = ({ setArrAds, dataAds }) => {
     const refInput = useRef<HTMLInputElement | null>(null);
 
-    const handleClickFind = (
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
-        e.preventDefault();
-
+    const showFilteredAds = () => {
         setArrAds(
             dataAds.filter((ad) => {
                 if (refInput.current) {
@@ -25,10 +21,18 @@ export const SearchBar: React.FC<SearchBarProps> = ({ setArrAds, dataAds }) => {
             })
         );
     };
+    const handleClickFind = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        e.preventDefault();
+        showFilteredAds();
+    };
 
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.currentTarget.value) {
             setArrAds(dataAds);
+        } else {
+            showFilteredAds();
         }
     };
 

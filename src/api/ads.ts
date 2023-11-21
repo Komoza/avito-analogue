@@ -86,65 +86,35 @@ export const postComments = async (
     });
 };
 
-export const updateAds = async (
-    ads: {
-        id: number;
-        title: string;
-        description: string;
-        price: number | null;
-    },
-    token: Token
-): Promise<Ads> => {
-    url = `/ads/${ads.id}`;
-    return fetch(host + url, {
-        method: 'PATCH',
-        headers: {
-            Authorization: `${token.token_type} ${token.access_token}`,
-            'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-            title: ads.title,
-            description: ads.description,
-            price: ads.price,
-        }),
-    }).then((response) => {
-        if (response.status === 200) {
-            return response.json();
-        }
-
-        if (response.status === 401) {
-            updateToken();
-            return updateAds(ads, getTokenFromLocalStorage());
-        }
-
-        throw new Error('Ошибка...');
-    });
-};
-
-// export const postAdsText = async (
+// export const updateAds = async (
 //     ads: {
+//         id: number;
 //         title: string;
 //         description: string;
-//         price: number;
+//         price: number | null;
 //     },
 //     token: Token
 // ): Promise<Ads> => {
-//     url = '/adstext';
+//     url = `/ads/${ads.id}`;
 //     return fetch(host + url, {
-//         method: 'POST',
+//         method: 'PATCH',
 //         headers: {
-//             'content-type': 'application/json',
 //             Authorization: `${token.token_type} ${token.access_token}`,
+//             'content-type': 'application/json',
 //         },
-//         body: JSON.stringify(ads),
+//         body: JSON.stringify({
+//             title: ads.title,
+//             description: ads.description,
+//             price: ads.price,
+//         }),
 //     }).then((response) => {
-//         if (response.status === 201) {
+//         if (response.status === 200) {
 //             return response.json();
 //         }
 
 //         if (response.status === 401) {
 //             updateToken();
-//             return postAdsText(ads, getTokenFromLocalStorage());
+//             return updateAds(ads, getTokenFromLocalStorage());
 //         }
 
 //         throw new Error('Ошибка...');
