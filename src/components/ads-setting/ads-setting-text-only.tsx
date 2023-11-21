@@ -281,8 +281,12 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         return;
     };
 
-    const handleClickImage = () => {
-        refImage.current?.click();
+    const handleClickImage = (
+        e: React.MouseEvent<HTMLImageElement, MouseEvent>
+    ) => {
+        if (e.currentTarget.src.includes('/image/add-photo.jpg')) {
+            refImage.current?.click();
+        }
     };
 
     const handlePostImage = () => {
@@ -392,7 +396,7 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
                                             </button>
                                         )}
                                         <img
-                                            onClick={handleClickImage}
+                                            onClick={(e) => handleClickImage(e)}
                                             src={image}
                                             alt=""
                                             className="ads-set__photo"

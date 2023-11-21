@@ -8,7 +8,7 @@ import { ru } from 'date-fns/locale';
 import { format, parseISO } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store/actions/types/types';
-import { postComments } from '../../../../api/ads';
+import { postComments } from '../../../../api/comments';
 import { getTokenFromLocalStorage } from '../../../../utils/token';
 
 interface CommentsWindowProps {

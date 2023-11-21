@@ -67,10 +67,6 @@ export const Info: React.FC<AdsInfoProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [statusDeleteAds]);
 
-    useEffect(() => {
-        console.log(comments);
-    }, [comments]);
-
     return (
         <div className="info">
             <p className="info__name">{currAds.title}</p>

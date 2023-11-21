@@ -10,7 +10,7 @@ import { CommentsWindow } from './components/comments/comments';
 import { Header } from '../../components/header/header';
 import { AdsSettingTextOnly } from '../../components/ads-setting/ads-setting-text-only';
 import { useGetAdsByIdQuery } from '../../services/advertisment';
-import { getAllComments } from '../../api/ads';
+import { getAllComments } from '../../api/comments';
 
 export const Advertisement = () => {
     const [currAds, setCurrAds] = useState<Ads | null>(null);
