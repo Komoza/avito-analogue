@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store/actions/types/types';
 import { postComments } from '../../../../api/comments';
 import { getTokenFromLocalStorage } from '../../../../utils/token';
+import { CloseModal } from '../../../../components/close-modal/close-modal';
 
 interface CommentsWindowProps {
     comments: Comments[];
@@ -78,6 +79,8 @@ export const CommentsWindow: React.FC<CommentsWindowProps> = ({
         <div className="comments-wrap">
             <BackgorundDark closeModal={setIsCommetnsWindow} />
             <div className="comments">
+                <CloseModal setIsModalWindow={setIsCommetnsWindow} />
+
                 <p className="comments__title">Отзывы о товаре</p>
                 {!userIdState ? (
                     <p className="comments__guest-mode">

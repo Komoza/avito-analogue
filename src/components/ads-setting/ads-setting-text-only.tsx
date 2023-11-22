@@ -12,6 +12,7 @@ import {
     useUpdateAdsByIdMutation,
 } from '../../services/advertisment';
 import { isFetchBaseQueryError } from '../../helper';
+import { CloseModal } from '../close-modal/close-modal';
 
 interface AdsSettingProps {
     setIsAdsModal: (value: boolean) => void;
@@ -319,6 +320,7 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         <div className="ads-setting">
             <BackgorundDark closeModal={setIsAdsModal} />
             <form className="ads-set">
+                <CloseModal setIsModalWindow={setIsAdsModal} />
                 {viewMode === 'new' && (
                     <p className="ads-set__title">Новое объявление</p>
                 )}

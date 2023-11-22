@@ -1,0 +1,14 @@
+.close-modal {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 38px;
+    right: 40px;
+
+    cursor: pointer;
+
+    &:hover path {
+        stroke: #009ee4;
+        fill: #009ee4;
+    }
+}

@@ -4,6 +4,7 @@ import { loginUser, registerUser } from '../../../api/user';
 import { useNavigate } from 'react-router-dom';
 import { saveTokenToLocalStorage } from '../../../utils/token';
 import { saveUserIdToState } from '../../../utils/users';
+import { CloseModal } from '../../close-modal/close-modal';
 
 interface SignupProps {
     setModalMode: (value: string) => void;
@@ -101,6 +102,8 @@ export const Signup: React.FC<SignupProps> = ({
 
     return (
         <div className="signup">
+            <CloseModal setIsModalWindow={setIsAuthModal} />
+
             <img
                 src="/image/logo-text.svg"
                 alt="logo"

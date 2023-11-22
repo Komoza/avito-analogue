@@ -74,7 +74,10 @@ export const Profile = () => {
             <Header />
             <BackToMain />
 
-            {!userProfile && pageMode !== 'error' && <ProfilePageSkeleton />}
+            {!userProfile &&
+                pageMode !== 'error' &&
+                pageMode !== 'not-logged' &&
+                pageMode !== 'not-found-user' && <ProfilePageSkeleton />}
             {pageMode === 'not-logged' && (
                 <div className="message-page">
                     <p className="message-page__text">

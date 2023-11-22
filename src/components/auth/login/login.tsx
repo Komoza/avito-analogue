@@ -3,6 +3,7 @@ import { loginUser } from '../../../api/user';
 import './login.scss';
 import { saveTokenToLocalStorage } from '../../../utils/token';
 import { saveUserIdToState } from '../../../utils/users';
+import { CloseModal } from '../../close-modal/close-modal';
 
 interface LoginProps {
     setModalMode: (value: string) => void;
@@ -43,6 +44,8 @@ export const Login: React.FC<LoginProps> = ({
 
     return (
         <div className="login">
+            <CloseModal setIsModalWindow={setIsAuthModal} />
+
             <img
                 src="/image/logo-text.svg"
                 alt="logo"
