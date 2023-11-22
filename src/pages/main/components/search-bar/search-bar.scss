@@ -34,6 +34,9 @@
         &::placeholder {
             color: rgba(0, 0, 0, 0.3);
         }
+        &:focus {
+            border: 1px solid #009ee4;
+        }
     }
 
     &__find {

@@ -1,0 +1,17 @@
+.bottom-navigation {
+    width: 100vw;
+    height: 54px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: none;
+    background-color: #fff;
+    z-index: 100;
+    box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 630px) {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+}
