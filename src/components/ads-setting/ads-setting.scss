@@ -59,6 +59,10 @@
         &::placeholder {
             color: rgba(0, 0, 0, 0.3);
         }
+
+        &:focus {
+            border: 1px solid #009ee4;
+        }
     }
 
     &__description-wrap {
@@ -92,6 +96,10 @@
 
         &::placeholder {
             color: rgba(0, 0, 0, 0.3);
+        }
+
+        &:focus {
+            border: 1px solid #009ee4;
         }
     }
 
@@ -203,6 +211,10 @@
         &::-webkit-outer-spin-button {
             -webkit-appearance: none;
             margin: 0;
+        }
+
+        &:focus {
+            border: 1px solid #009ee4;
         }
     }
 
