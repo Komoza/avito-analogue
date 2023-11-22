@@ -4,15 +4,13 @@ import './ads-setting.scss';
 import { getTokenFromLocalStorage, updateToken } from '../../utils/token';
 import { useNavigate } from 'react-router-dom';
 import { Ads, Image } from '../../interface/global';
-import { host } from '../../constant';
 import {
-    useDeleteAdsImageMutation,
-    usePostAdsImageMutation,
     usePostAdsMutation,
     useUpdateAdsByIdMutation,
 } from '../../services/advertisment';
 import { isFetchBaseQueryError } from '../../helper';
 import { CloseModal } from '../close-modal/close-modal';
+import { PhotosEdit } from './photos';
 
 interface AdsSettingProps {
     setIsAdsModal: (value: boolean) => void;
@@ -48,36 +46,9 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         { data: dataUpdateAds, status: statusUpdateAds, error: errorUpdateAds },
     ] = useUpdateAdsByIdMutation();
 
-    const [
-        postAdsImage,
-        {
-            data: dataPostAdsImage,
-            status: statusPostAdsImage,
-            error: errorPostAdsImage,
-        },
-    ] = usePostAdsImageMutation();
-
-    const [
-        deleteAdsImage,
-        {
-            data: dataDeleteAdsImage,
-            status: statusDeleteAdsImage,
-            error: errorDeleteAdsImage,
-        },
-    ] = useDeleteAdsImageMutation();
-
     const refName = useRef<HTMLInputElement | null>(null);
     const refDescription = useRef<HTMLTextAreaElement | null>(null);
     const refPrice = useRef<HTMLInputElement | null>(null);
-    const refImage = useRef<HTMLInputElement | null>(null);
-
-    const [imagesState, setImagesState] = useState<string[]>([
-        '/image/add-photo.jpg',
-        '/image/add-photo.jpg',
-        '/image/add-photo.jpg',
-        '/image/add-photo.jpg',
-        '/image/add-photo.jpg',
-    ]);
 
     const [adsState, setAdsState] = useState(ads);
 
@@ -138,64 +109,6 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [statusUpdateAds]);
-
-    useEffect(() => {
-        if (
-            statusPostAdsImage === 'fulfilled' &&
-            dataPostAdsImage &&
-            setCurrAds
-        ) {
-            setCurrAds(dataPostAdsImage);
-        }
-
-        if (
-            isFetchBaseQueryError(errorPostAdsImage) &&
-            errorPostAdsImage.status === 401
-        ) {
-            updateToken();
-            handlePostImage();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [statusPostAdsImage, errorPostAdsImage]);
-
-    useEffect(() => {
-        if (
-            statusDeleteAdsImage === 'fulfilled' &&
-            dataDeleteAdsImage &&
-            setCurrAds
-        ) {
-            setCurrAds(dataDeleteAdsImage);
-        }
-
-        if (
-            isFetchBaseQueryError(errorDeleteAdsImage) &&
-            errorDeleteAdsImage.status === 401
-        ) {
-            updateToken();
-            // придумать как вызвать удаление еще раз
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [statusDeleteAdsImage, errorDeleteAdsImage]);
-
-    useEffect(() => {
-        const newArrImages = [
-            '/image/add-photo.jpg',
-            '/image/add-photo.jpg',
-            '/image/add-photo.jpg',
-            '/image/add-photo.jpg',
-            '/image/add-photo.jpg',
-        ];
-
-        ads.images.forEach((image, index) => {
-            if (image) {
-                if (!isNaN(image.id)) {
-                    newArrImages[index] = `${host}/${image.url}`;
-                }
-            }
-        });
-
-        setImagesState(newArrImages);
-    }, [ads]);
 
     const updateAdsState = (value: string, field: string) => {
         setAdsState({ ...adsState, [field]: value });
@@ -282,40 +195,6 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
         return;
     };
 
-    const handleClickImage = (
-        e: React.MouseEvent<HTMLImageElement, MouseEvent>
-    ) => {
-        if (e.currentTarget.src.includes('/image/add-photo.jpg')) {
-            refImage.current?.click();
-        }
-    };
-
-    const handlePostImage = () => {
-        if (refImage.current?.files) {
-            const file = refImage.current.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
-
-            postAdsImage({
-                token: getTokenFromLocalStorage(),
-                image: formData,
-                adsId: ads.id,
-            });
-        }
-    };
-
-    const handleClickDeleteImage = (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-        imageUrl: string
-    ) => {
-        event.preventDefault();
-        deleteAdsImage({
-            token: getTokenFromLocalStorage(),
-            imageUrl: imageUrl,
-            adsId: ads.id,
-        });
-    };
-
     return (
         <div className="ads-setting">
             <BackgorundDark closeModal={setIsAdsModal} />
@@ -359,55 +238,8 @@ export const AdsSettingTextOnly: React.FC<AdsSettingProps> = ({
                     />
                 </div>
 
-                {viewMode === 'edit' && (
-                    <div className="ads-set__photos-wrap">
-                        <div className="ads-set__photos-text-wrap">
-                            <p className="ads-set__photos-text">
-                                Фотографии товара
-                            </p>
-                            <p className="ads-set__photos-description">
-                                не более 5 фотографий
-                            </p>
-                        </div>
-
-                        <div className="ads-set__photo-wrap">
-                            <input
-                                ref={refImage}
-                                onChange={handlePostImage}
-                                className="ads-set__photo--input"
-                                type="file"
-                                accept="image/png, image/jpeg"
-                            />
-                            {imagesState.map((image, index) => {
-                                return (
-                                    <div
-                                        key={index}
-                                        className="ads-set__img-wrap"
-                                    >
-                                        {image !== '/image/add-photo.jpg' && (
-                                            <button
-                                                onClick={(event) =>
-                                                    handleClickDeleteImage(
-                                                        event,
-                                                        image
-                                                    )
-                                                }
-                                                className="ads-set__img-delete"
-                                            >
-                                                x
-                                            </button>
-                                        )}
-                                        <img
-                                            onClick={(e) => handleClickImage(e)}
-                                            src={image}
-                                            alt=""
-                                            className="ads-set__photo"
-                                        />
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
+                {viewMode === 'edit' && setCurrAds && (
+                    <PhotosEdit ads={ads} setCurrAds={setCurrAds} />
                 )}
                 <div className="ads-set__price-wrap">
                     <div className="ads-set__price-text">Цена</div>
