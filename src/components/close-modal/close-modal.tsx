@@ -20,12 +20,12 @@ export const CloseModal: React.FC<CloseModalProps> = ({ setIsModalWindow }) => {
             <path
                 d="M31.8193 10.6066L10.6061 31.8198"
                 stroke="#D9D9D9"
-                stroke-width="2"
+                strokeWidth="2"
             />
             <path
                 d="M31.8193 31.8198L10.6061 10.6066"
                 stroke="#D9D9D9"
-                stroke-width="2"
+                strokeWidth="2"
             />
         </svg>
     );

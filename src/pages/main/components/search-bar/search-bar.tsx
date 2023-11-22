@@ -5,9 +5,14 @@ import './search-bar.scss';
 interface SearchBarProps {
     setArrAds: (value: Ads[]) => void;
     dataAds: Ads[];
+    isMobile?: boolean;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ setArrAds, dataAds }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({
+    setArrAds,
+    dataAds,
+    isMobile,
+}) => {
     const refInput = useRef<HTMLInputElement | null>(null);
 
     const showFilteredAds = () => {
@@ -46,7 +51,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ setArrAds, dataAds }) => {
                     name="search-bar"
                     type="text"
                     className="form__input"
-                    placeholder="Поиск по объявлениям"
+                    placeholder={isMobile ? 'Поиск' : 'Поиск по объявлениям'}
                 />
                 <button
                     onClick={(e) => handleClickFind(e)}

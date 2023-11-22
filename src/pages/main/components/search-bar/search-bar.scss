@@ -4,6 +4,10 @@
     gap: 60px;
     padding: 43px 0;
 
+    @media (max-width: 630px) {
+        padding: 0;
+    }
+
     &__form {
         width: 100%;
         display: flex;
@@ -11,6 +15,10 @@
     }
     &__logo {
         width: 55px;
+
+        @media (max-width: 630px) {
+            display: none;
+        }
     }
 }
 
@@ -36,10 +44,28 @@
         }
         &:focus {
             border: 1px solid #009ee4;
+            @media (max-width: 630px) {
+                border: 0;
+            }
+        }
+
+        @media (max-width: 630px) {
+            height: 32px;
+            border: 0;
+            border-radius: 30px;
+
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 21px;
+            letter-spacing: 0em;
         }
     }
 
     &__find {
         width: 158px;
+
+        @media (max-width: 630px) {
+            display: none !important;
+        }
     }
 }

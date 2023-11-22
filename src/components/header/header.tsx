@@ -7,6 +7,8 @@ import { setUserId } from '../../store/actions/creators/creators';
 import { removeTokenFromLocalStorage } from '../../utils/token';
 import { AdsSettingTextOnly } from '../ads-setting/ads-setting-text-only';
 import { RootState } from '../../store/actions/types/types';
+import { SearchBar } from '../../pages/main/components/search-bar/search-bar';
+import { Ads } from '../../interface/global';
 
 const emptyAds = {
     id: 0,
@@ -16,9 +18,20 @@ const emptyAds = {
     images: [],
 };
 
-export const Header = () => {
+interface HeaderProps {
+    setArrAds?: (value: Ads[]) => void;
+    dataAds?: Ads[];
+    isMobile?: boolean;
+}
+
+export const Header: React.FC<HeaderProps> = ({
+    setArrAds,
+    dataAds,
+    isMobile,
+}) => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
     const [isAdsModal, setIsAdsModal] = useState<boolean>(false);
+
     const userIdState = useSelector(
         (state: RootState) => state.otherState.userId
     );
@@ -39,6 +52,18 @@ export const Header = () => {
 
     return (
         <div className="header">
+            <img
+                src="/image/mini-logo.png"
+                alt="лого"
+                className="header__mini-logo"
+            />
+            {isMobile && setArrAds && dataAds && (
+                <SearchBar
+                    setArrAds={setArrAds}
+                    dataAds={dataAds}
+                    isMobile={isMobile}
+                />
+            )}
             {isAdsModal && (
                 <AdsSettingTextOnly
                     setIsAdsModal={setIsAdsModal}
