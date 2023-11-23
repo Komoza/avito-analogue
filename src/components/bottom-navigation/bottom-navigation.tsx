@@ -54,16 +54,19 @@ export const BottomNavigation = () => {
                 <Auth setIsAuthModal={setIsModalAuth} modalModeName={'login'} />
             )}
             <img
+                className="bottom-navigation__image-home"
                 onClick={handleClickGoToMain}
                 src="/image/home.svg"
                 alt="на главную"
             />
             <img
+                className="bottom-navigation__image-add-post"
                 onClick={handleClickAddPost}
                 src="/image/add-post.svg"
                 alt="разместить объявление"
             />
             <img
+                className="bottom-navigation__image-profile"
                 onClick={handleClickGoToProfile}
                 src="/image/profile.svg"
                 alt="перейти в профиль"

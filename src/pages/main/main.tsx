@@ -20,6 +20,14 @@ export const Main = () => {
         }
     }, [data]);
 
+    useEffect(() => {
+        if (innerWidth < 631) {
+            setIsMobile(true);
+        } else {
+            setIsMobile(false);
+        }
+    }, []);
+
     window.addEventListener('resize', () => {
         if (innerWidth < 631) {
             setIsMobile(true);
