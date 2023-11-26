@@ -12,7 +12,7 @@ import { AdvertisementSkeleton } from '../../components/skeleton/advertisement-c
 export const Main = () => {
     const { data, error, isLoading } = useGetAllAdsQuery();
     const [arrAds, setArrAds] = useState<Ads[] | null>(null);
-    const [isMobile, setIsMobile] = useState<boolean>(true);
+    const [isMobile, setIsMobile] = useState<boolean>(false);
 
     useEffect(() => {
         if (data) {

@@ -13,10 +13,14 @@ import { getAllUsers, getUser } from '../../api/user';
 import { getTokenFromLocalStorage } from '../../utils/token';
 import { Header } from '../../components/header/header';
 import { ProfilePageSkeleton } from '../../components/skeleton/profile-page';
+import { ChangePassword } from './components/change-password/change-password';
 
 export const Profile = () => {
     const [userProfile, setUserProfile] = useState<User | null>(null);
     const [pageMode, setPageMode] = useState<string>('guest'); // guest, not-logged, my-profile, error, not-found-user
+    const [isChangePassWindow, setIsChangePassWindow] =
+        useState<boolean>(false);
+
     const userIdState = useSelector(
         (state: RootState) => state.otherState.userId
     );
@@ -73,7 +77,9 @@ export const Profile = () => {
         <div className="profile-wrapper">
             <Header />
             <BackToMain />
-
+            {isChangePassWindow && (
+                <ChangePassword setIsChangePassWindow={setIsChangePassWindow} />
+            )}
             {!userProfile &&
                 pageMode !== 'error' &&
                 pageMode !== 'not-logged' &&
@@ -98,6 +104,7 @@ export const Profile = () => {
                     <UserInfo
                         userProfile={userProfile}
                         setUserProfile={setUserProfile}
+                        setIsChangePassWindow={setIsChangePassWindow}
                     />
                     <Products
                         userId={userProfile.id}

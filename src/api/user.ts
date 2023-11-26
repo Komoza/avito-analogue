@@ -171,8 +171,34 @@ export const getNewToken = async (token: Token) => {
         if (response.status === 201) {
             return response.json();
         }
+
+        throw new Error('Неизвестная ошибка, попробуйте позже');
+    });
+};
+
+export const changePassword = async (
+    oldPass: string,
+    newPass: string,
+    token: Token
+): Promise<string> => {
+    url = '/user/password';
+    return fetch(host + url, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+            Authorization: `${token.token_type} ${token.access_token}`,
+        },
+        body: JSON.stringify({
+            password_1: oldPass,
+            password_2: newPass,
+        }),
+    }).then((response) => {
+        if (response.status === 200) {
+            return response.json();
+        }
         if (response.status === 401) {
-            throw new Error('Токен устарел');
+            updateToken();
+            return changePassword(oldPass, newPass, getTokenFromLocalStorage());
         }
 
         throw new Error('Неизвестная ошибка, попробуйте позже');

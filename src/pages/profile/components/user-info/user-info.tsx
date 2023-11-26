@@ -8,11 +8,13 @@ import { host } from '../../../../constant';
 interface UserInfoProps {
     userProfile: User;
     setUserProfile: (value: User) => void;
+    setIsChangePassWindow: (value: boolean) => void;
 }
 
 export const UserInfo: React.FC<UserInfoProps> = ({
     userProfile,
     setUserProfile,
+    setIsChangePassWindow,
 }) => {
     const [userProfileState, setUserProfileState] = useState<User>(userProfile);
     const [isSuccessMessage, setIsSuccessMessage] = useState<boolean>(false);
@@ -96,6 +98,13 @@ export const UserInfo: React.FC<UserInfoProps> = ({
         }
         setNotActiveSaveButton(true);
         return;
+    };
+
+    const handleClickChangePassword = (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        event.preventDefault();
+        setIsChangePassWindow(true);
     };
 
     useEffect(() => {
@@ -204,6 +213,12 @@ export const UserInfo: React.FC<UserInfoProps> = ({
                     </div>
 
                     <div className="user-save__wrap">
+                        <button
+                            onClick={(e) => handleClickChangePassword(e)}
+                            className="user__change-password blue-button"
+                        >
+                            Сменить пароль
+                        </button>
                         <button
                             onClick={(event) => handleClickSaveUser(event)}
                             className={`user__save blue-button${
