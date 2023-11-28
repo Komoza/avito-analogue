@@ -3,16 +3,29 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
+    @media (max-width: 630px) {
+        width: 100%;
+    }
 
     &__main-slide {
         width: 480px;
         height: 480px;
+
+        @media (max-width: 630px) {
+            width: 100%;
+            height: auto;
+        }
     }
 
     &__main-slide-img {
         width: 480px;
         height: 480px;
         object-fit: contain;
+
+        @media (max-width: 630px) {
+            width: 100%;
+            height: auto;
+        }
     }
 
     &__swipe-slide-img {
@@ -27,5 +40,9 @@
 
     &__thumbs-wrapper {
         width: 480px;
+
+        @media (max-width: 630px) {
+            width: 100%;
+        }
     }
 }

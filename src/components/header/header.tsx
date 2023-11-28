@@ -21,16 +21,15 @@ const emptyAds = {
 interface HeaderProps {
     setArrAds?: (value: Ads[]) => void;
     dataAds?: Ads[];
-    isMobile?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-    setArrAds,
-    dataAds,
-    isMobile,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ setArrAds, dataAds }) => {
     const [isAuthModal, setIsAuthModal] = useState<boolean>(false);
     const [isAdsModal, setIsAdsModal] = useState<boolean>(false);
+
+    const isMobile = useSelector(
+        (state: RootState) => state.otherState.isMobile
+    );
 
     const userIdState = useSelector(
         (state: RootState) => state.otherState.userId

@@ -8,11 +8,16 @@ import { useGetAllAdsQuery } from '../../services/advertisment';
 import { useEffect, useState } from 'react';
 import { Ads } from '../../interface/global';
 import { AdvertisementSkeleton } from '../../components/skeleton/advertisement-card';
+import { RootState } from '../../store/actions/types/types';
+import { useSelector } from 'react-redux';
 
 export const Main = () => {
     const { data, error, isLoading } = useGetAllAdsQuery();
     const [arrAds, setArrAds] = useState<Ads[] | null>(null);
-    const [isMobile, setIsMobile] = useState<boolean>(false);
+
+    const isMobile = useSelector(
+        (state: RootState) => state.otherState.isMobile
+    );
 
     useEffect(() => {
         if (data) {
@@ -20,25 +25,9 @@ export const Main = () => {
         }
     }, [data]);
 
-    useEffect(() => {
-        if (innerWidth < 631) {
-            setIsMobile(true);
-        } else {
-            setIsMobile(false);
-        }
-    }, []);
-
-    window.addEventListener('resize', () => {
-        if (innerWidth < 631) {
-            setIsMobile(true);
-        } else {
-            setIsMobile(false);
-        }
-    });
-
     return (
         <div className="main">
-            <Header setArrAds={setArrAds} dataAds={data} isMobile={isMobile} />
+            <Header setArrAds={setArrAds} dataAds={data} />
             {data && !isMobile && (
                 <SearchBar setArrAds={setArrAds} dataAds={data} />
             )}

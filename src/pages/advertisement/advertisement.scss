@@ -2,6 +2,9 @@
     width: 100%;
     padding-bottom: 100px;
 
+    @media (max-width: 630px) {
+        padding-bottom: 30px;
+    }
     &__error {
         margin-top: 40px;
         font-size: 36px;
@@ -14,4 +17,8 @@
     flex-wrap: wrap;
     gap: 59px;
     margin-top: 34px;
+
+    @media (max-width: 630px) {
+        gap: 20px;
+    }
 }

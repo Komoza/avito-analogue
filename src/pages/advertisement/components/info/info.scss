@@ -9,6 +9,11 @@
         font-weight: 700;
         line-height: 45px;
         letter-spacing: 0em;
+
+        @media (max-width: 630px) {
+            font-size: 18px;
+            line-height: 25px;
+        }
     }
 
     &__from {
@@ -23,18 +28,16 @@
         font-weight: 400;
         line-height: 21px;
         letter-spacing: 0em;
+
+        @media (max-width: 630px) {
+            font-size: 14px;
+            line-height: 17px;
+        }
     }
 
     &__reviews {
         display: block;
         margin-top: 4px;
-
-        font-family: Noto Sans;
-        color: #009ee4;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 21px;
-        letter-spacing: 0em;
 
         &:hover {
             text-decoration: underline;
@@ -55,6 +58,11 @@
         &:hover {
             text-decoration: underline;
         }
+
+        @media (max-width: 630px) {
+            font-size: 14px;
+            line-height: 19px;
+        }
     }
 
     &__price {
@@ -64,6 +72,12 @@
         font-weight: 700;
         line-height: 39px;
         letter-spacing: 0em;
+
+        @media (max-width: 630px) {
+            margin-top: 20px;
+            font-size: 18px;
+            line-height: 25px;
+        }
     }
 
     &__edit-buttons {
@@ -109,6 +123,11 @@
         &:hover {
             text-decoration: underline;
         }
+
+        @media (max-width: 630px) {
+            font-size: 18px;
+            line-height: 23px;
+        }
     }
 
     &__name-link {
@@ -122,5 +141,10 @@
         font-weight: 400;
         line-height: 32px;
         letter-spacing: 0em;
+
+        @media (max-width: 630px) {
+            font-size: 14px;
+            font-weight: 400;
+        }
     }
 }

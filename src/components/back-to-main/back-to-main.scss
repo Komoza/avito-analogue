@@ -1,8 +1,17 @@
 .back-to-main {
+    position: relative;
     display: flex;
     gap: 60px;
     padding-top: 43px;
     padding-bottom: 43px;
+
+    @media (max-width: 630px) {
+        position: absolute;
+        padding: 0;
+        top: 90px;
+        left: 20px;
+        z-index: 30;
+    }
 
     &__logo {
         width: 55px;
