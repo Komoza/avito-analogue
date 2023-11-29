@@ -4,6 +4,11 @@
     flex-direction: column;
     gap: 20px;
 
+    @media (max-width: 630px) {
+        margin-top: 40px;
+        gap: 0;
+    }
+
     &__error {
         margin-top: 40px;
         font-size: 36px;
@@ -15,5 +20,10 @@
         font-weight: 500;
         line-height: 70px;
         letter-spacing: 0em;
+
+        @media (max-width: 630px) {
+            font-size: 18px;
+            line-height: 18px;
+        }
     }
 }

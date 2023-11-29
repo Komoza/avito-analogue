@@ -1,13 +1,19 @@
+import { useSelector } from 'react-redux';
 import { CallingButton } from '../../../../components/calling-button/calling-button';
 import { host } from '../../../../constant';
 import { User } from '../../../../interface/global';
 import { formatDate } from '../../../../utils/advertisement';
 import './seller-info.scss';
+import { RootState } from '../../../../store/actions/types/types';
 
 interface SellerInfoProps {
     userProfile: User;
 }
 export const SellerInfo: React.FC<SellerInfoProps> = ({ userProfile }) => {
+    const isMobile = useSelector(
+        (state: RootState) => state.otherState.isMobile
+    );
+
     return (
         <div className="seller-info">
             <img
@@ -29,10 +35,14 @@ export const SellerInfo: React.FC<SellerInfoProps> = ({ userProfile }) => {
                         )}`}
                     </p>
                 )}
-                {userProfile.phone && (
+                {userProfile.phone && !isMobile && (
                     <CallingButton phoneNumber={userProfile.phone} />
                 )}
             </div>
+
+            {userProfile.phone && isMobile && (
+                <CallingButton phoneNumber={userProfile.phone} />
+            )}
         </div>
     );
 };

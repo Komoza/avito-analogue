@@ -21,6 +21,10 @@ export const Profile = () => {
     const [isChangePassWindow, setIsChangePassWindow] =
         useState<boolean>(false);
 
+    const isMobile = useSelector(
+        (state: RootState) => state.otherState.isMobile
+    );
+
     const userIdState = useSelector(
         (state: RootState) => state.otherState.userId
     );
@@ -76,7 +80,7 @@ export const Profile = () => {
     return (
         <div className="profile-wrapper">
             <Header />
-            <BackToMain />
+            {!isMobile && <BackToMain />}
             {isChangePassWindow && (
                 <ChangePassword setIsChangePassWindow={setIsChangePassWindow} />
             )}
