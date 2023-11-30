@@ -98,7 +98,7 @@ export const Profile = () => {
 
             {pageMode === 'not-found-user' && (
                 <div className="message-page">
-                    <p className="message-page__text">Пользовател не найден</p>
+                    <p className="message-page__text">Пользователь не найден</p>
                 </div>
             )}
 

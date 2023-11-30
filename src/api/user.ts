@@ -196,6 +196,9 @@ export const changePassword = async (
         if (response.status === 200) {
             return response.json();
         }
+        if (response.status === 400) {
+            throw new Error('Неверный старый пароль');
+        }
         if (response.status === 401) {
             updateToken();
             return changePassword(oldPass, newPass, getTokenFromLocalStorage());

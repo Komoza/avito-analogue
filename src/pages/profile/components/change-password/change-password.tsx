@@ -12,6 +12,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({
     setIsChangePassWindow,
 }) => {
     const [isNotActiveButton, setIsNotActiveButton] = useState<boolean>(true);
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const refPassword = useRef<HTMLInputElement | null>(null);
     const refNewPassword = useRef<HTMLInputElement | null>(null);
@@ -57,7 +58,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({
                     setIsChangePassWindow(false);
                 })
                 .catch((error) => {
-                    console.error(error);
+                    setErrorMessage(error.message);
                 });
         }
     };
@@ -99,6 +100,11 @@ export const ChangePassword: React.FC<ChangePasswordProps> = ({
                     />
                 </div>
 
+                {errorMessage && (
+                    <p className="error-message change-password__error">
+                        {errorMessage}
+                    </p>
+                )}
                 <button
                     onClick={handleClickSaveButton}
                     className={`change-password__button blue-button${
